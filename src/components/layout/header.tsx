@@ -22,7 +22,6 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* --- LEFT GROUP --- */}
         <div className="flex items-center gap-2 shrink-0">
           <Link href="/" className="flex items-center space-x-2">
             <Handshake className="h-6 w-6 text-primary" />
@@ -32,8 +31,7 @@ export function Header() {
           </Link>
         </div>
 
-        {/* --- MIDDLE GROUP (Desktop) --- */}
-        <nav className="hidden md:flex items-center gap-8 whitespace-nowrap">
+        <nav className="hidden md:flex items-center gap-8 whitespace-nowrap mx-auto">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -48,7 +46,6 @@ export function Header() {
           ))}
         </nav>
         
-        {/* --- RIGHT GROUP (Desktop) --- */}
         <div className="hidden md:flex items-center gap-4">
           <Button variant="ghost" asChild>
               <Link href="/sign-in">Login</Link>
@@ -58,7 +55,6 @@ export function Header() {
           </Button>
         </div>
         
-        {/* --- MOBILE MENU --- */}
         <div className="flex flex-1 items-center justify-end md:hidden">
           <Sheet>
             <SheetTrigger asChild>
