@@ -1,0 +1,97 @@
+{
+  "users": [
+    {
+      "uid": "owner123",
+      "role": "business owner",
+      "name": "Shawaiz Haider",
+      "email": "hshawaiz04@gmail.com",
+      "photoURL": null,
+      "createdAt": 1717000000000
+    },
+    {
+      "uid": "investor001",
+      "role": "investor",
+      "name": "Sophia Patel",
+      "email": "sophia@investco.com",
+      "photoURL": "https://randomuser.me/api/portraits/women/68.jpg",
+      "createdAt": 1717000500000
+    }
+  ],
+  "businesses": [
+    {
+      "id": "biz123",
+      "ownerUid": "owner123",
+      "name": "EcoCharge Solutions",
+      "industry": "Clean Energy",
+      "stage": "MVP",
+      "pitch": "Portable solar-powered charging stations for rural markets.",
+      "targetRaise": 50000,
+      "raisedAmount": 12000,
+      "profileComplete": 70,
+      "createdAt": 1717000600000,
+      "updatedAt": 1717000600000
+    }
+  ],
+  "proposals": [
+    {
+      "id": "prop1",
+      "businessId": "biz123",
+      "title": "EcoCharge V1 Expansion",
+      "description": "Scaling to 3 more districts with 50 new charging units.",
+      "status": "Published",
+      "createdAt": 1717000700000
+    },
+    {
+      "id": "prop2",
+      "businessId": "biz123",
+      "title": "R&D for V2 Battery Tech",
+      "description": "Developing next-gen battery for longer life and faster charging.",
+      "status": "Draft",
+      "createdAt": 1717000750000
+    }
+  ],
+  "views": [
+    {
+      "id": "view101",
+      "businessId": "biz123",
+      "investorId": "investor001",
+      "actionType": "view",
+      "timestamp": 1717000800000
+    },
+    {
+      "id": "bookmark301",
+      "businessId": "biz123",
+      "investorId": "investor001",
+      "actionType": "bookmark",
+      "timestamp": 1717000900000
+    }
+  ],
+  "messages": [
+    {
+      "threadId": "owner123_investor001",
+      "messages": [
+        {
+          "messageId": "msg1",
+          "fromUid": "investor001",
+          "toUid": "owner123",
+          "text": "Hi Shawaiz, I'd like more details about your MVP traction.",
+          "createdAt": 1717001000000,
+          "read": false
+        }
+      ]
+    }
+  ],
+  "logs": [
+    {
+      "id": "log001",
+      "uid": "investor001",
+      "action": "view_business",
+      "targetType": "business",
+      "targetId": "biz123",
+      "metadata": {
+        "note": "Investor viewed business profile"
+      },
+      "timestamp": 1717001100000
+    }
+  ]
+}

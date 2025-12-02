@@ -1,0 +1,71 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return request.auth.uid == uid;
+    }
+    
+    function getUserData(uid) {
+      return get(/databases/$(database)/documents/users/$(uid)).data;
+    }
+
+    function isRole(role) {
+      return isSignedIn() && getUserData(request.auth.uid).role == role;
+    }
+    
+    // USERS: Can read their own profile, and create it.
+    // Investors/Advisors can be read by business owners.
+    match /users/{userId} {
+      allow read: if isSignedIn() && 
+                    (isOwner(userId) || isRole('business owner'));
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+    }
+    
+    // BUSINESSES: Owners can CUD their own business.
+    // Authenticated users can read business profiles.
+    match /businesses/{businessId} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(resource.data.ownerUid);
+      allow update, delete: if isOwner(get(/databases/$(database)/documents/businesses/$(businessId)).data.ownerUid);
+    }
+
+    // PROPOSALS: Owners can CUD their own proposals.
+    // Authenticated users can read proposals.
+    match /proposals/{proposalId} {
+      function getBusinessOwner() {
+        let businessDoc = get(/databases/$(database)/documents/businesses/$(resource.data.businessId));
+        return businessDoc.data.ownerUid;
+      }
+      
+      allow read: if isSignedIn();
+      allow create: if isOwner(getBusinessOwner());
+      allow update, delete: if isOwner(get(/databases/$(database)/documents/proposals/$(proposalId)).data.businessId);
+    }
+
+    // VIEWS: Investors can create views. Business owners can read views on their business.
+    match /views/{viewId} {
+      allow read: if isSignedIn() && (
+                      isOwner(get(/databases/$(database)/documents/businesses/$(resource.data.businessId)).data.ownerUid)
+                   );
+      allow create: if isRole('investor') && isOwner(request.resource.data.investorId);
+    }
+    
+    // MESSAGES: Only involved parties can read/write messages.
+    match /messages/{threadId}/{message=**} {
+      allow read, write: if isSignedIn() && (request.auth.uid in threadId.split('_'));
+    }
+    
+    // LOGS: Only backend/admin can write logs. No one can read them directly.
+    match /logs/{logId} {
+      allow read, write: if false; // Assume logs are written by a trusted server/admin
+    }
+  }
+}
