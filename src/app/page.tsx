@@ -118,7 +118,7 @@ export default function Home() {
       </section>
 
       <section id="roles" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
-        <div className="container px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6 flex flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Choose Your Path</div>
@@ -151,7 +151,7 @@ export default function Home() {
       </section>
       
       <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
+        <div className="container px-4 md:px-6 flex flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">How It Works</div>
@@ -161,7 +161,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="relative mx-auto max-w-5xl grid gap-10 sm:grid-cols-4">
+          <div className="relative mx-auto max-w-5xl grid gap-10 sm:grid-cols-4 w-full">
              <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-full bg-border hidden sm:block"></div>
               {howItWorksSteps.map((step) => (
                   <div key={step.step} className="relative flex flex-col items-center text-center p-4">
@@ -175,7 +175,7 @@ export default function Home() {
       </section>
 
       <section id="featured" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
-        <div className="container px-4 md:px-6">
+        <div className="container px-4 md:px-6 flex flex-col items-center justify-center">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Featured Ideas</div>
@@ -185,7 +185,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto max-w-4xl grid grid-cols-1 gap-6 pt-12">
+          <div className="mx-auto max-w-4xl grid grid-cols-1 gap-6 pt-12 w-full">
             {featuredProposals.map((proposal) => (
               <Card key={proposal.id} className="hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="flex items-center justify-between p-6">
@@ -233,5 +233,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
