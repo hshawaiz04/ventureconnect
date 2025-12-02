@@ -3,17 +3,15 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Handshake, Menu, LayoutDashboard } from "lucide-react";
+import { Handshake, Menu, LayoutDashboard, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/firebase/auth/use-user";
+import { getAuth, signOut } from "firebase/auth";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-// This is a mock hook. Replace with your actual authentication logic.
-const useUser = () => {
-  // To test the business owner view, you can temporarily set this to 'business'
-  // and then set it back to null or a different role.
-  const user = { role: 'business' }; // or { role: 'investor' } or null
-  return { user };
-};
 
 const defaultNavLinks = [
   { href: "/proposals", label: "Business Ideas" },
@@ -31,22 +29,35 @@ const businessNavLinks = [
 
 export function Header() {
   const pathname = usePathname();
-  const { user } = useUser(); // In a real app, this would come from your auth provider
+  const { user, userData, loading } = useUser();
+  const auth = getAuth();
+  const { toast } = useToast();
+  const router = useRouter();
 
-  const navLinks = user?.role === 'business' ? businessNavLinks : defaultNavLinks;
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      toast({ title: "Signed out successfully." });
+      router.push('/');
+    } catch (error) {
+      toast({ variant: 'destructive', title: "Error signing out.", description: (error as Error).message });
+    }
+  }
+
+  const navLinks = userData?.role === 'business owner' ? businessNavLinks : defaultNavLinks;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="w-full flex items-center h-16 px-4 sm:px-6 lg:px-8">
+      <div className="container flex items-center h-16">
 
-        {/* LEFT - Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 mr-8">
-          <Handshake className="h-6 w-6 text-primary" />
-          <span className="font-bold sm:inline-block">VentureConnect</span>
-        </Link>
+        <div className="flex items-center gap-3 shrink-0">
+          <Link href="/" className="flex items-center gap-2">
+            <Handshake className="h-6 w-6 text-primary" />
+            <span className="font-bold sm:inline-block">VentureConnect</span>
+          </Link>
+        </div>
 
-        {/* CENTER - Nav Links */}
-        <nav className="hidden md:flex items-center gap-8 whitespace-nowrap mx-auto">
+        <nav className="hidden md:flex items-center gap-8 mx-auto whitespace-nowrap">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -62,20 +73,32 @@ export function Header() {
           ))}
         </nav>
 
-        {/* RIGHT SIDE - Auth + Mobile Menu */}
-        <div className="flex items-center gap-4 ml-auto">
-          
-          {/* Desktop buttons */}
+        <div className="ml-auto flex items-center gap-4">
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" asChild>
-              <Link href="/sign-in">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/sign-up">Sign Up</Link>
-            </Button>
+             {loading ? (
+              <div className="w-24 h-8 bg-muted rounded-md animate-pulse" />
+            ) : user ? (
+              <>
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.photoURL ?? undefined} alt={user.displayName ?? ""} />
+                  <AvatarFallback>{user.displayName?.charAt(0) ?? user.email?.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="Sign out">
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link href="/sign-in">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/sign-up">Sign Up</Link>
+                </Button>
+              </>
+            )}
           </div>
 
-          {/* Mobile hamburger menu */}
           <div className="flex items-center md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -108,14 +131,23 @@ export function Header() {
                     </Link>
                   ))}
                 </div>
-
-                <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3">
-                  <Button variant="ghost" asChild>
-                    <Link href="/sign-in">Login</Link>
-                  </Button>
-                  <Button asChild>
-                    <Link href="/sign-up">Sign Up</Link>
-                  </Button>
+                
+                 <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3">
+                  {user ? (
+                     <Button onClick={handleSignOut}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Sign Out
+                      </Button>
+                  ) : (
+                    <>
+                      <Button variant="ghost" asChild>
+                        <Link href="/sign-in">Login</Link>
+                      </Button>
+                      <Button asChild>
+                        <Link href="/sign-up">Sign Up</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

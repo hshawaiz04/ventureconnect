@@ -1,55 +1,58 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Check, Edit, MessageSquare, MoreVertical, Plus, Share2, Trash2 } from "lucide-react";
-
-// Mock data - in a real app, this would come from Firestore
+import { Check, Edit, Plus, Share2, Trash2 } from "lucide-react";
+import { useUser, type UserData } from '@/firebase/auth/use-user';
 import seedData from '@/../sample-data/seed.json';
 
-// Mock user - replace with actual Firebase Auth user
-const currentUser = seedData.users.find(u => u.uid === 'owner123');
-
-// Mock a simple hook to simulate fetching data
-const useFirestoreData = () => {
+// This is a placeholder for a real data fetching hook
+const useFirestoreData = (user: UserData | null) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
-    business: null,
-    proposals: [],
-    investorActivity: [],
-    messages: [],
+    business: null as typeof seedData.businesses[0] | null,
+    proposals: [] as typeof seedData.proposals,
+    investorActivity: [] as (typeof seedData.views[0] & { investor: typeof seedData.users[0] })[],
+    messages: [] as (typeof seedData.messages[0]['messages'][0] & { fromUser: typeof seedData.users[0] | undefined })[],
   });
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const business = seedData.businesses.find(b => b.ownerUid === currentUser?.uid);
-      const proposals = seedData.proposals.filter(p => p.businessId === business?.id);
-      const investorActivity = seedData.views.map(view => ({
-        ...view,
-        investor: seedData.users.find(u => u.uid === view.investorId)
-      }));
-       const messages = seedData.messages.flatMap(thread => 
-        thread.messages.map(msg => ({
-          ...msg,
-          fromUser: seedData.users.find(u => u.uid === msg.fromUid)
-        }))
-      );
+    if (user) {
+      setLoading(true);
+      const timer = setTimeout(() => {
+        const business = seedData.businesses.find(b => b.ownerUid === user.uid);
+        if (business) {
+          const proposals = seedData.proposals.filter(p => p.businessId === business.id);
+          const investorActivity = seedData.views
+            .filter(v => v.businessId === business.id)
+            .map(view => ({
+              ...view,
+              investor: seedData.users.find(u => u.uid === view.investorId)!
+            }));
+          const messages = seedData.messages
+            .filter(thread => thread.threadId.includes(user.uid))
+            .flatMap(thread => 
+              thread.messages.map(msg => ({
+                ...msg,
+                fromUser: seedData.users.find(u => u.uid === msg.fromUid)
+              }))
+            );
+          
+          setData({ business, proposals, investorActivity, messages });
+        }
+        setLoading(false);
+      }, 1000); // Simulate network delay
 
-      setData({
-        business,
-        proposals,
-        investorActivity,
-        messages,
-      });
+      return () => clearTimeout(timer);
+    } else {
       setLoading(false);
-    }, 1000); // Simulate network delay
-
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  }, [user]);
 
   return { ...data, loading };
 };
@@ -78,9 +81,20 @@ const tasks = [
 
 
 export default function DashboardPage() {
-  const { business, proposals, investorActivity, messages, loading } = useFirestoreData();
+  const { user: authUser, userData, loading: userLoading } = useUser();
+  const router = useRouter();
+  const { business, proposals, investorActivity, messages, loading: dataLoading } = useFirestoreData(userData);
+  
+  useEffect(() => {
+    if (!userLoading && !authUser) {
+      router.push('/sign-in');
+    }
+    if (!userLoading && authUser && userData?.role !== 'business owner') {
+        router.push('/'); // Or a "not authorized" page
+    }
+  }, [authUser, userData, userLoading, router]);
 
-  if (loading) {
+  if (userLoading || dataLoading) {
     return <div className="container mx-auto p-4 md:p-8 text-center">Loading Dashboard...</div>;
   }
   
@@ -98,18 +112,14 @@ export default function DashboardPage() {
   
   return (
     <div className="container mx-auto p-4 md:p-8 space-y-8 bg-background">
-      {/* Welcome Banner */}
       <div className="p-6 rounded-lg bg-secondary text-secondary-foreground">
-        <h1 className="text-3xl font-bold">Welcome back, {currentUser?.name}!</h1>
+        <h1 className="text-3xl font-bold">Welcome back, {userData?.name}!</h1>
         <p className="text-muted-foreground mt-1">Here's what's happening with {business.name}.</p>
       </div>
 
-      {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Left Column */}
         <div className="lg:col-span-2 space-y-8">
-            {/* Analytics Section */}
             <section>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <Card>
@@ -145,7 +155,6 @@ export default function DashboardPage() {
                 </div>
             </section>
 
-          {/* Proposals List */}
           <section>
             <Card>
               <CardHeader>
@@ -174,7 +183,6 @@ export default function DashboardPage() {
             </Card>
           </section>
 
-          {/* Investor Activity */}
           <section>
             <Card>
               <CardHeader>
@@ -187,7 +195,7 @@ export default function DashboardPage() {
                     <div key={activity.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary">
                         <div className="flex items-center gap-4">
                            <Avatar>
-                            <AvatarImage src={activity.investor.photoURL} alt={activity.investor.name} />
+                            <AvatarImage src={activity.investor.photoURL ?? undefined} alt={activity.investor.name} />
                             <AvatarFallback>{activity.investor.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                           <div>
@@ -207,9 +215,7 @@ export default function DashboardPage() {
           </section>
         </div>
 
-        {/* Right Column */}
         <div className="space-y-8">
-          {/* Business Profile Card */}
           <Card>
             <CardHeader className="flex flex-row items-start justify-between">
               <div>
@@ -230,7 +236,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
           
-          {/* Funding Progress Card */}
           <Card>
             <CardHeader>
               <CardTitle>Funding Progress</CardTitle>
@@ -244,7 +249,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-            {/* Messages Inbox */}
             <Card>
                 <CardHeader>
                     <CardTitle>Inbox</CardTitle>
@@ -254,7 +258,7 @@ export default function DashboardPage() {
                         {messages.map(message => (
                             <div key={message.messageId} className="flex items-start gap-3 p-2 rounded-lg hover:bg-secondary">
                                 <Avatar className="w-8 h-8">
-                                    <AvatarImage src={message.fromUser?.photoURL} alt={message.fromUser?.name} />
+                                    <AvatarImage src={message.fromUser?.photoURL ?? undefined} alt={message.fromUser?.name} />
                                     <AvatarFallback>{message.fromUser?.name.charAt(0)}</AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1">
@@ -270,7 +274,6 @@ export default function DashboardPage() {
                 </CardContent>
             </Card>
 
-          {/* Tasks & Recommendations */}
             <Card>
                 <CardHeader>
                     <CardTitle>Tasks & Recommendations</CardTitle>
@@ -291,7 +294,6 @@ export default function DashboardPage() {
         </div>
       </div>
       
-       {/* Bottom CTAs */}
        <footer className="mt-8 p-6 rounded-lg bg-secondary flex items-center justify-center gap-4">
             <Button><Plus className="mr-2 h-4 w-4" />Create Proposal</Button>
             <Button variant="outline"><Share2 className="mr-2 h-4 w-4" />Share Profile</Button>
