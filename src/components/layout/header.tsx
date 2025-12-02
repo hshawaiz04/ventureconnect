@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -20,50 +21,45 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        {/* Desktop Header */}
-        <div className="hidden w-full items-center md:flex">
-          <nav className="w-full flex items-center justify-between px-8">
-            <div className="flex items-center gap-2">
-              <Link href="/" className="flex items-center space-x-2">
-                <Handshake className="h-6 w-6 text-primary" />
-                <span className="font-bold sm:inline-block">
-                  VentureConnect
-                </span>
-              </Link>
-            </div>
-            
-            <div className="flex items-center gap-8 mx-auto">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "transition-colors hover:text-primary text-sm font-medium",
-                    pathname === link.href ? "text-primary" : "text-muted-foreground"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
-               <Button variant="ghost" asChild>
-                  <Link href="/sign-in" className={cn(
-                    "transition-colors hover:text-primary text-sm font-medium",
-                    pathname === "/sign-in" ? "text-primary" : "text-muted-foreground"
-                  )}>Login</Link>
-              </Button>
-            </div>
+      <div className="container flex h-16 items-center px-4 sm:px-6 lg:px-8">
+        {/* --- LEFT GROUP --- */}
+        <div className="flex items-center gap-2 shrink-0">
+          <Link href="/" className="flex items-center space-x-2">
+            <Handshake className="h-6 w-6 text-primary" />
+            <span className="font-bold sm:inline-block">
+              VentureConnect
+            </span>
+          </Link>
+        </div>
 
-            <div className="flex items-center">
-              <Button asChild>
-                  <Link href="/sign-up">Sign Up</Link>
-              </Button>
-            </div>
-          </nav>
+        {/* --- MIDDLE GROUP (Desktop) --- */}
+        <nav className="hidden md:flex items-center gap-8 mx-auto whitespace-nowrap">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "transition-colors hover:text-primary text-sm font-medium",
+                pathname === link.href ? "text-primary" : "text-muted-foreground"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        
+        {/* --- RIGHT GROUP (Desktop) --- */}
+        <div className="hidden md:flex items-center gap-4">
+          <Button variant="ghost" asChild>
+              <Link href="/sign-in">Login</Link>
+          </Button>
+          <Button asChild>
+              <Link href="/sign-up">Sign Up</Link>
+          </Button>
         </div>
         
-        {/* Mobile Header */}
-        <div className="flex flex-1 items-center justify-between md:hidden">
+        {/* --- MOBILE MENU --- */}
+        <div className="flex flex-1 items-center justify-end md:hidden">
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -77,35 +73,29 @@ export function Header() {
                 <span className="font-bold">VentureConnect</span>
               </Link>
               <div className="flex flex-col space-y-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "transition-colors hover:text-primary text-lg",
-                    pathname === link.href ? "text-primary font-semibold" : "text-muted-foreground"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "transition-colors hover:text-primary text-lg",
+                      pathname === link.href ? "text-primary font-semibold" : "text-muted-foreground"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3">
+                <Button variant="ghost" asChild>
+                    <Link href="/sign-in">Login</Link>
+                </Button>
+                <Button asChild>
+                    <Link href="/sign-up">Sign Up</Link>
+                </Button>
               </div>
             </SheetContent>
           </Sheet>
-          
-           <Link href="/" className="flex items-center space-x-2">
-            <Handshake className="h-6 w-6 text-primary" />
-            <span className="font-bold">VentureConnect</span>
-          </Link>
-
-          <nav className="flex items-center gap-2">
-            <Button variant="ghost" asChild>
-                <Link href="/sign-in">Login</Link>
-            </Button>
-            <Button asChild>
-                <Link href="/sign-up">Sign Up</Link>
-            </Button>
-          </nav>
         </div>
       </div>
     </header>
