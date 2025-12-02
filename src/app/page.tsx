@@ -43,7 +43,6 @@ const featuredProposals = [
     category: 'Sustainability',
     fundingGoal: 5000000,
     description: 'A biodegradable alternative to plastic packaging for consumer goods.',
-    image: PlaceHolderImages.find(img => img.id === 'proposal-1'),
   },
   {
     id: 2,
@@ -51,7 +50,6 @@ const featuredProposals = [
     category: 'FinTech',
     fundingGoal: 12000000,
     description: 'An intelligent mobile app to help users manage budgets and investments.',
-    image: PlaceHolderImages.find(img => img.id === 'proposal-2'),
   },
   {
     id: 3,
@@ -59,7 +57,6 @@ const featuredProposals = [
     category: 'AgriTech',
     fundingGoal: 8500000,
     description: 'Bringing fresh, locally-grown produce to city centers with minimal footprint.',
-    image: PlaceHolderImages.find(img => img.id === 'proposal-3'),
   },
 ];
 
@@ -185,32 +182,17 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-12">
+          <div className="mx-auto max-w-4xl grid grid-cols-1 gap-6 pt-12">
             {featuredProposals.map((proposal) => (
-              <Card key={proposal.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                {proposal.image && (
-                  <div className="relative h-48 w-full">
-                    <Image
-                      src={proposal.image.imageUrl}
-                      alt={proposal.title}
-                      fill
-                      className="object-cover"
-                      data-ai-hint={proposal.image.imageHint}
-                    />
+              <Card key={proposal.id} className="hover:shadow-lg transition-shadow duration-300">
+                <div className="grid grid-cols-[1fr_auto] items-center p-6">
+                  <div>
+                    <h3 className="text-lg font-semibold">{proposal.title}</h3>
+                    <p className="text-sm text-muted-foreground">{proposal.description}</p>
+                    <p className="text-primary font-semibold mt-2">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)} sought</p>
                   </div>
-                )}
-                <CardHeader>
-                  <CardTitle>{proposal.title}</CardTitle>
-                  <CardDescription>
-                    <span className="font-semibold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)}</span> in funding sought
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{proposal.description}</p>
-                </CardContent>
-                <div className="p-6 pt-0">
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link href={`/proposals`}>View Details</Link>
+                  <Button variant="outline" asChild>
+                    <Link href={`/proposals`}>View Details <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
                 </div>
               </Card>
