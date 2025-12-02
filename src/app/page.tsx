@@ -118,14 +118,14 @@ export default function Home() {
       </section>
 
       <section id="roles" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
-        <div className="container mx-auto px-4 md:px-6 flex flex-col items-center justify-center">
-            <div className="space-y-2 text-center">
-              <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Choose Your Path</div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Are you a...</h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Whether you're looking for funding, seeking to invest, offering loans, or providing expert advice, there's a place for you at VentureConnect.
-              </p>
-            </div>
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Choose Your Path</div>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Are you a...</h2>
+            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              Whether you're looking for funding, seeking to invest, offering loans, or providing expert advice, there's a place for you at VentureConnect.
+            </p>
+          </div>
           <div className="mx-auto grid max-w-5xl items-stretch gap-6 py-12 lg:grid-cols-4 md:grid-cols-2">
             {roles.map((role) => (
               <Card key={role.title} className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
@@ -135,7 +135,6 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="flex-grow text-center">
                   <p className="text-sm text-muted-foreground">{role.description}</p>
-
                 </CardContent>
                 <div className="p-6 pt-0 mt-auto">
                   <Button className="w-full" asChild>
@@ -149,15 +148,15 @@ export default function Home() {
       </section>
       
       <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6 flex flex-col items-center justify-center">
-            <div className="space-y-2 text-center mb-12">
-              <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">How It Works</div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">A Simple Path to Partnership</h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                We've streamlined the process of connecting talent, ideas, and capital.
-              </p>
-            </div>
-          <div className="relative mx-auto max-w-5xl grid gap-10 sm:grid-cols-4 w-full">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">How It Works</div>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">A Simple Path to Partnership</h2>
+            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              We've streamlined the process of connecting talent, ideas, and capital.
+            </p>
+          </div>
+          <div className="relative mx-auto max-w-5xl grid gap-10 sm:grid-cols-4">
              <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-full bg-border hidden sm:block"></div>
               {howItWorksSteps.map((step) => (
                   <div key={step.step} className="relative flex flex-col items-center text-center p-4">
@@ -171,14 +170,14 @@ export default function Home() {
       </section>
 
       <section id="featured" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
-        <div className="container px-4 md:px-6 flex flex-col items-center justify-center">
-            <div className="space-y-2 text-center">
-              <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Featured Ideas</div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Hot Right Now</h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Check out some of the most promising business proposals currently on our platform.
-              </p>
-            </div>
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Featured Ideas</div>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Hot Right Now</h2>
+            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              Check out some of the most promising business proposals currently on our platform.
+            </p>
+          </div>
           <div className="mx-auto max-w-4xl grid grid-cols-1 gap-6 pt-12 w-full">
             {featuredProposals.map((proposal) => (
               <Card key={proposal.id} className="hover:shadow-lg transition-shadow duration-300">
