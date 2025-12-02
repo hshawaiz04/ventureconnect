@@ -32,7 +32,6 @@ const plans = [
       "Priority support",
     ],
     cta: "Choose Investor Plan",
-    featured: true,
   },
   {
     title: "Partner",
@@ -78,7 +77,7 @@ export default function PricingPage() {
         <div className="container px-4 md:px-6">
           <div className="mx-auto grid max-w-5xl items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {plans.map((plan) => (
-              <Card key={plan.title} className={`flex flex-col h-full ${plan.featured ? 'border-primary shadow-lg ring-1 ring-primary' : ''}`}>
+              <Card key={plan.title} className="flex flex-col h-full">
                 <CardHeader>
                   <CardTitle>{plan.title}</CardTitle>
                   <div className="flex items-baseline">
@@ -98,7 +97,7 @@ export default function PricingPage() {
                   </ul>
                 </CardContent>
                 <div className="p-6 pt-0 mt-auto">
-                  <Button className="w-full" variant={plan.featured ? 'default' : 'outline'}>
+                  <Button className="w-full" variant="outline">
                     {plan.cta}
                   </Button>
                 </div>
