@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
                     <CardTitle className="text-3xl font-headline text-center">Privacy Policy</CardTitle>
                     <p className="text-center text-muted-foreground pt-2">Last Updated: {currentDate}</p>
                 </CardHeader>
-                <CardContent className="prose-sm md:prose-base max-w-none text-card-foreground prose-headings:text-primary prose-headings:font-headline prose-headings:font-bold prose-h2:text-2xl prose-h2:mb-4 prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-8 prose-p:text-muted-foreground prose-strong:text-card-foreground prose-ul:list-disc prose-ul:ml-6 prose-li:text-muted-foreground prose-p:mb-4 prose-ul:mb-4">
+                <CardContent className="prose-sm md:prose-base max-w-none text-card-foreground prose-headings:text-primary prose-headings:font-headline prose-headings:font-bold prose-h2:text-2xl prose-h2:mb-4 prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-8 prose-p:text-muted-foreground prose-strong:text-card-foreground prose-ul:list-disc prose-ul:ml-6 prose-li:text-muted-foreground prose-p:mb-6 prose-ul:mb-6 prose-li:mb-2">
                     <p>Welcome to VentureConnect (“we,” “us,” “our”). This Privacy Policy explains how we collect, use, store, protect, and share your information when you use our website, mobile application, or related services (“Platform” or “Services”).</p>
                     <p>By accessing or using VentureConnect, you agree to the practices described in this Privacy Policy.</p>
 
@@ -183,5 +183,3 @@ export default function PrivacyPolicyPage() {
         </div>
     );
 }
-
-    
