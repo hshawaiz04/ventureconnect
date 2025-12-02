@@ -1,10 +1,10 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ListFilter, Search } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const proposals = [
@@ -14,7 +14,6 @@ const proposals = [
         category: 'Sustainability',
         fundingGoal: 5000000,
         description: 'A biodegradable alternative to plastic packaging for consumer goods, aiming to reduce plastic waste in landfills and oceans.',
-        image: PlaceHolderImages.find(img => img.id === 'proposal-1'),
     },
     {
         id: 2,
@@ -22,7 +21,6 @@ const proposals = [
         category: 'FinTech',
         fundingGoal: 12000000,
         description: 'An intelligent mobile app to help users manage budgets, track expenses, and receive personalized investment advice.',
-        image: PlaceHolderImages.find(img => img.id === 'proposal-2'),
     },
     {
         id: 3,
@@ -30,7 +28,6 @@ const proposals = [
         category: 'AgriTech',
         fundingGoal: 8500000,
         description: 'Bringing fresh, locally-grown produce to city centers with minimal environmental footprint using hydroponic technology.',
-        image: PlaceHolderImages.find(img => img.id === 'proposal-3'),
     },
     {
         id: 4,
@@ -38,7 +35,6 @@ const proposals = [
         category: 'HealthTech',
         fundingGoal: 25000000,
         description: 'A platform for doctors to monitor patients with chronic conditions remotely, improving patient outcomes and reducing hospital visits.',
-        image: {imageUrl: 'https://picsum.photos/seed/vc-prop4/600/400', imageHint: 'health tech'},
     },
     {
         id: 5,
@@ -46,7 +42,6 @@ const proposals = [
         category: 'E-commerce',
         fundingGoal: 3000000,
         description: 'A monthly subscription service delivering curated, high-quality coffee from independent roasters around the world.',
-        image: {imageUrl: 'https://picsum.photos/seed/vc-prop5/600/400', imageHint: 'coffee beans'},
     },
     {
         id: 6,
@@ -54,7 +49,6 @@ const proposals = [
         category: 'EdTech',
         fundingGoal: 7500000,
         description: 'A mobile app that makes learning a new language fun and engaging through games, challenges, and leaderboards.',
-        image: {imageUrl: 'https://picsum.photos/seed/vc-prop6/600/400', imageHint: 'mobile app'},
     },
 ]
 
@@ -103,17 +97,6 @@ export default function ProposalsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {proposals.map((proposal) => (
                         <Card key={proposal.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                        {proposal.image && (
-                          <div className="relative h-48 w-full">
-                            <Image
-                              src={proposal.image.imageUrl}
-                              alt={proposal.title}
-                              fill
-                              className="object-cover"
-                              data-ai-hint={proposal.image.imageHint}
-                            />
-                          </div>
-                        )}
                         <CardHeader>
                           <div className="flex justify-between items-start gap-2">
                             <CardTitle className="pr-2">{proposal.title}</CardTitle>

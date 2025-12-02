@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, MessageCircle, Search, Star, FileText, Bell, BarChart, ShieldCheck, Filter } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const whyInvestFeatures = [
@@ -36,7 +35,6 @@ const opportunities = [
         industry: "CleanTech",
         funding: "$50,000 – $100,000",
         traction: "5,000 paying customers",
-        image: { imageUrl: 'https://images.unsplash.com/photo-1611263293883-999a1b415442?q=80&w=600&auto=format&fit=crop', imageHint: 'sustainable business' }
     },
     {
         id: "byteschool",
@@ -45,7 +43,6 @@ const opportunities = [
         industry: "Education",
         funding: "$150,000 – $300,000",
         traction: "20+ schools onboard",
-        image: { imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600&auto=format&fit=crop', imageHint: 'business meeting' }
     },
     {
         id: "farmlink",
@@ -54,7 +51,6 @@ const opportunities = [
         industry: "Agriculture",
         funding: "$250,000 – $400,000",
         traction: "₹2.5 Crore Annual Revenue",
-        image: { imageUrl: 'https://images.unsplash.com/photo-1590618823751-8608f1b6357f?q=80&w=600&auto=format&fit=crop', imageHint: 'modern agriculture' }
     }
 ];
 
@@ -149,9 +145,6 @@ export default function InvestorsPage() {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {opportunities.map(opp => (
                             <Card key={opp.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                                <div className="relative h-48 w-full">
-                                    <Image src={opp.image.imageUrl} alt={opp.name} fill className="object-cover" data-ai-hint={opp.image.imageHint} />
-                                </div>
                                 <CardHeader>
                                     <CardTitle>{opp.name}</CardTitle>
                                     <CardDescription>{opp.stage} • {opp.industry}</CardDescription>
