@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 const plans = [
   {
     title: "Business Owner",
-    price: "$29",
+    price: 2499,
     period: "/month",
     description: "For entrepreneurs ready to launch and grow.",
     features: [
@@ -18,7 +18,7 @@ const plans = [
   },
   {
     title: "Investor",
-    price: "$49",
+    price: 4999,
     period: "/month",
     description: "For investors seeking the next big thing.",
     features: [
@@ -33,7 +33,7 @@ const plans = [
   },
   {
     title: "Partner",
-    price: "$39",
+    price: 3999,
     period: "/month",
     description: "For bankers and advisors.",
     features: [
@@ -66,7 +66,7 @@ export default function PricingPage() {
               <CardHeader>
                 <CardTitle>{plan.title}</CardTitle>
                 <div className="flex items-baseline">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+                  <span className="text-4xl font-bold">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(plan.price)}</span>
                   <span className="text-muted-foreground">{plan.period}</span>
                 </div>
                 <CardDescription>{plan.description}</CardDescription>

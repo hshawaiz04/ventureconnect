@@ -41,7 +41,7 @@ const featuredProposals = [
     id: 1,
     title: 'Eco-Friendly Packaging Solution',
     category: 'Sustainability',
-    fundingGoal: '$50,000',
+    fundingGoal: 5000000,
     description: 'A biodegradable alternative to plastic packaging for consumer goods.',
     image: PlaceHolderImages.find(img => img.id === 'proposal-1'),
   },
@@ -49,7 +49,7 @@ const featuredProposals = [
     id: 2,
     title: 'AI-Powered Personal Finance App',
     category: 'FinTech',
-    fundingGoal: '$120,000',
+    fundingGoal: 12000000,
     description: 'An intelligent mobile app to help users manage budgets and investments.',
     image: PlaceHolderImages.find(img => img.id === 'proposal-2'),
   },
@@ -57,7 +57,7 @@ const featuredProposals = [
     id: 3,
     title: 'Urban Vertical Farming Initiative',
     category: 'AgriTech',
-    fundingGoal: '$85,000',
+    fundingGoal: 8500000,
     description: 'Bringing fresh, locally-grown produce to city centers with minimal footprint.',
     image: PlaceHolderImages.find(img => img.id === 'proposal-3'),
   },
@@ -202,7 +202,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>{proposal.title}</CardTitle>
                   <CardDescription>
-                    <span className="font-semibold text-primary">{proposal.fundingGoal}</span> in funding sought
+                    <span className="font-semibold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)}</span> in funding sought
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

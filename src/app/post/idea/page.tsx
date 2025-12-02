@@ -40,8 +40,8 @@ export default function PostIdeaPage() {
                                 </Select>
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="funding-goal">Funding Goal ($USD)</Label>
-                                <Input id="funding-goal" type="number" placeholder="e.g., 50000" />
+                                <Label htmlFor="funding-goal">Funding Goal (INR)</Label>
+                                <Input id="funding-goal" type="number" placeholder="e.g., 5000000" />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="description">Detailed Description</Label>

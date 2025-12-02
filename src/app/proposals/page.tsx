@@ -12,7 +12,7 @@ const proposals = [
         id: 1,
         title: 'Eco-Friendly Packaging Solution',
         category: 'Sustainability',
-        fundingGoal: 50000,
+        fundingGoal: 5000000,
         description: 'A biodegradable alternative to plastic packaging for consumer goods, aiming to reduce plastic waste in landfills and oceans.',
         image: PlaceHolderImages.find(img => img.id === 'proposal-1'),
     },
@@ -20,7 +20,7 @@ const proposals = [
         id: 2,
         title: 'AI-Powered Personal Finance App',
         category: 'FinTech',
-        fundingGoal: 120000,
+        fundingGoal: 12000000,
         description: 'An intelligent mobile app to help users manage budgets, track expenses, and receive personalized investment advice.',
         image: PlaceHolderImages.find(img => img.id === 'proposal-2'),
     },
@@ -28,7 +28,7 @@ const proposals = [
         id: 3,
         title: 'Urban Vertical Farming Initiative',
         category: 'AgriTech',
-        fundingGoal: 85000,
+        fundingGoal: 8500000,
         description: 'Bringing fresh, locally-grown produce to city centers with minimal environmental footprint using hydroponic technology.',
         image: PlaceHolderImages.find(img => img.id === 'proposal-3'),
     },
@@ -36,7 +36,7 @@ const proposals = [
         id: 4,
         title: 'Remote Health Monitoring Platform',
         category: 'HealthTech',
-        fundingGoal: 250000,
+        fundingGoal: 25000000,
         description: 'A platform for doctors to monitor patients with chronic conditions remotely, improving patient outcomes and reducing hospital visits.',
         image: {imageUrl: 'https://picsum.photos/seed/vc-prop4/600/400', imageHint: 'health tech'},
     },
@@ -44,7 +44,7 @@ const proposals = [
         id: 5,
         title: 'Subscription Box for Artisanal Coffee',
         category: 'E-commerce',
-        fundingGoal: 30000,
+        fundingGoal: 3000000,
         description: 'A monthly subscription service delivering curated, high-quality coffee from independent roasters around the world.',
         image: {imageUrl: 'https://picsum.photos/seed/vc-prop5/600/400', imageHint: 'coffee beans'},
     },
@@ -52,7 +52,7 @@ const proposals = [
         id: 6,
         title: 'Gamified Language Learning App',
         category: 'EdTech',
-        fundingGoal: 75000,
+        fundingGoal: 7500000,
         description: 'A mobile app that makes learning a new language fun and engaging through games, challenges, and leaderboards.',
         image: {imageUrl: 'https://picsum.photos/seed/vc-prop6/600/400', imageHint: 'mobile app'},
     },
@@ -120,7 +120,7 @@ export default function ProposalsPage() {
                             <span className="text-xs font-semibold bg-secondary text-secondary-foreground rounded-full px-2 py-1 whitespace-nowrap">{proposal.category}</span>
                           </div>
                           <CardDescription>
-                            <span className="font-semibold text-primary">{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)}</span> in funding sought
+                            <span className="font-semibold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)}</span> in funding sought
                           </CardDescription>
                         </CardHeader>
                         <CardContent className="flex-grow">
