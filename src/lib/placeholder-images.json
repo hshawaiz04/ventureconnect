@@ -1,3 +1,52 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "Abstract background image for hero section",
+      "imageUrl": "https://images.unsplash.com/photo-1707077865701-2854996afc4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxvZmZpY2UlMjBidWlsZGluZ3xlbnwwfHx8fDE3NjQ1NzY0MzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office building"
+    },
+    {
+      "id": "role-investor",
+      "description": "Iconic image for investor role",
+      "imageUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjaGFydCUyMGdyYXBofGVufDB8fHx8MTc2NDU3OTQ5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chart graph"
+    },
+    {
+      "id": "role-business",
+      "description": "Iconic image for business person role",
+      "imageUrl": "https://images.unsplash.com/photo-1595838004398-616d898d5e48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpZGVhJTIwbGlnaHRidWxifGVufDB8fHx8MTc2NDYwMjYwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "idea lightbulb"
+    },
+    {
+      "id": "role-banker",
+      "description": "Iconic image for banker role",
+      "imageUrl": "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYW5rJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzY0NjYwNjUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bank building"
+    },
+    {
+      "id": "role-advisor",
+      "description": "Iconic image for business advisor role",
+      "imageUrl": "https://images.unsplash.com/photo-1758519288905-38b7b00c1023?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtZWV0aW5nJTIwaGFuZHNoYWtlfGVufDB8fHx8MTc2NDY2MDY1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "meeting handshake"
+    },
+    {
+      "id": "proposal-1",
+      "description": "Placeholder for a business proposal",
+      "imageUrl": "https://images.unsplash.com/photo-1536148935331-408321065b18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0ZWNoJTIwc3RhcnR1cHxlbnwwfHx8fDE3NjQ1ODg5OTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tech startup"
+    },
+    {
+      "id": "proposal-2",
+      "description": "Placeholder for a business proposal",
+      "imageUrl": "https://images.unsplash.com/photo-1538333581680-29dd4752ddf2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjYWZlJTIwaW50ZXJpb3J8ZW58MHx8fHwxNzY0NjM0MjIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cafe interior"
+    },
+    {
+      "id": "proposal-3",
+      "description": "Placeholder for a business proposal",
+      "imageUrl": "https://images.unsplash.com/photo-1684954215462-cad9f3693b41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdXN0YWluYWJsZSUyMGZhcm1pbmd8ZW58MHx8fHwxNzY0NjYwNjUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sustainable farming"
+    }
+  ]
 }
