@@ -11,11 +11,11 @@ export default function PrivacyPolicyPage() {
                     <CardTitle className="text-3xl font-headline text-center">Privacy Policy</CardTitle>
                     <p className="text-center text-muted-foreground pt-2">Last Updated: {currentDate}</p>
                 </CardHeader>
-                <CardContent className="prose-sm md:prose-base max-w-none text-card-foreground prose-headings:text-primary prose-headings:font-headline prose-headings:font-bold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-12 prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-8 prose-p:text-muted-foreground prose-strong:text-card-foreground prose-ul:list-disc prose-ul:ml-6 prose-li:text-muted-foreground prose-p:mb-4 prose-ul:mb-4 prose-li:mb-2">
+                <CardContent className="prose-sm md:prose-base max-w-none text-card-foreground prose-headings:text-primary prose-headings:font-headline prose-headings:font-bold prose-p:text-muted-foreground prose-strong:text-card-foreground prose-ul:list-disc prose-ul:ml-6 prose-li:text-muted-foreground">
                     <p>Welcome to VentureConnect (“we,” “us,” “our”). This Privacy Policy explains how we collect, use, store, protect, and share your information when you use our website, mobile application, or related services (“Platform” or “Services”).</p>
                     <p>By accessing or using VentureConnect, you agree to the practices described in this Privacy Policy.</p>
 
-                    <h2>1. Information We Collect</h2>
+                    <h2 className="text-2xl mt-12 mb-4">1. Information We Collect</h2>
                     
                     <h3>1.1 Information You Provide Directly</h3>
                     <ul>
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
                         <li>Payment or subscription information (processed by third-party gateways)</li>
                     </ul>
                     
-                    <h3>1.2 Automatically Collected Information</h3>
+                    <h3 className="text-xl mt-8 mb-3">1.2 Automatically Collected Information</h3>
                     <p>When you use VentureConnect, we may collect:</p>
                     <ul>
                         <li>IP address</li>
@@ -43,7 +43,7 @@ export default function PrivacyPolicyPage() {
                         <li>Cookies & tracking information (see Cookie Policy if applicable)</li>
                     </ul>
 
-                    <h3>1.3 Third-Party Information Sources</h3>
+                    <h3 className="text-xl mt-8 mb-3">1.3 Third-Party Information Sources</h3>
                     <p>We may receive data from:</p>
                     <ul>
                         <li>Payment processors (Stripe, Razorpay, etc.)</li>
@@ -51,9 +51,9 @@ export default function PrivacyPolicyPage() {
                         <li>Analytics tools (Google Analytics, Firebase, etc.)</li>
                     </ul>
 
-                    <h2>2. How We Use Your Information</h2>
+                    <h2 className="text-2xl mt-12 mb-4">2. How We Use Your Information</h2>
                     
-                    <h3>2.1 Provide and Improve the Platform</h3>
+                    <h3 className="text-xl mt-8 mb-3">2.1 Provide and Improve the Platform</h3>
                     <ul>
                       <li>Create and manage user accounts</li>
                       <li>Enable communication between investors & entrepreneurs</li>
@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
                       <li>Improve security, features, and user experience</li>
                     </ul>
                     
-                    <h3>2.2 Ensure Safety & Compliance</h3>
+                    <h3 className="text-xl mt-8 mb-3">2.2 Ensure Safety & Compliance</h3>
                     <ul>
                       <li>Prevent fraud or misuse</li>
                       <li>Verify identity when needed</li>
@@ -70,31 +70,31 @@ export default function PrivacyPolicyPage() {
                       <li>Respond to legal obligations</li>
                     </ul>
                     
-                    <h3>2.3 Personalization</h3>
+                    <h3 className="text-xl mt-8 mb-3">2.3 Personalization</h3>
                     <ul>
                       <li>Recommend proposals or investors</li>
                       <li>Customize dashboards</li>
                       <li>Suggest relevant industries or matches</li>
                     </ul>
 
-                    <h3>2.4 Payments</h3>
+                    <h3 className="text-xl mt-8 mb-3">2.4 Payments</h3>
                     <ul>
                       <li>Process subscription fees or premium features</li>
                       <li>Handle billing and invoicing</li>
                     </ul>
 
-                    <h3>2.5 Communication</h3>
+                    <h3 className="text-xl mt-8 mb-3">2.5 Communication</h3>
                     <ul>
                       <li>Send confirmations, alerts, updates</li>
                       <li>Notify users about changes or new features</li>
                       <li>Provide support and resolve issues</li>
                     </ul>
 
-                    <h2>3. Sharing Your Information</h2>
+                    <h2 className="text-2xl mt-12 mb-4">3. Sharing Your Information</h2>
                     <p>We do not sell your personal data.</p>
                     <p>We may share information only with the following:</p>
                     
-                    <h3>3.1 Other Users</h3>
+                    <h3 className="text-xl mt-8 mb-3">3.1 Other Users</h3>
                     <p>Depending on your role and activity:</p>
                     <ul>
                         <li>Entrepreneurs may share proposal details with investors</li>
@@ -102,7 +102,7 @@ export default function PrivacyPolicyPage() {
                     </ul>
                     <p>You control what you upload — we only display what you choose to share.</p>
 
-                    <h3>3.2 Service Providers</h3>
+                    <h3 className="text-xl mt-8 mb-3">3.2 Service Providers</h3>
                     <p>Trusted partners may receive only necessary data:</p>
                     <ul>
                         <li>Payment gateways</li>
@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
                         <li>Document storage services (AWS S3, Cloudflare R2, etc.)</li>
                     </ul>
 
-                    <h3>3.3 Legal Requirements</h3>
+                    <h3 className="text-xl mt-8 mb-3">3.3 Legal Requirements</h3>
                     <p>We may disclose information if required by:</p>
                     <ul>
                         <li>Court order</li>
@@ -120,10 +120,10 @@ export default function PrivacyPolicyPage() {
                         <li>Regulatory authorities</li>
                     </ul>
 
-                    <h3>3.4 Business Transfers</h3>
+                    <h3 className="text-xl mt-8 mb-3">3.4 Business Transfers</h3>
                     <p>If VentureConnect is merged, acquired, or sold, user data may be transferred as part of that transaction.</p>
 
-                    <h2>4. Data Security</h2>
+                    <h2 className="text-2xl mt-12 mb-4">4. Data Security</h2>
                     <p>We use industry-standard safeguards:</p>
                     <ul>
                         <li>Encrypted passwords (bcrypt or better)</li>
@@ -135,7 +135,7 @@ export default function PrivacyPolicyPage() {
                     </ul>
                     <p>However, no system is 100% secure. You use the Platform at your own risk.</p>
                     
-                    <h2>5. Data Retention</h2>
+                    <h2 className="text-2xl mt-12 mb-4">5. Data Retention</h2>
                     <p>We retain your information:</p>
                     <ul>
                         <li>As long as your account is active</li>
@@ -144,7 +144,7 @@ export default function PrivacyPolicyPage() {
                     </ul>
                     <p>You may request deletion of your account at any time.</p>
 
-                    <h2>6. Your Rights</h2>
+                    <h2 className="text-2xl mt-12 mb-4">6. Your Rights</h2>
                     <p>Depending on your location, you may have rights to:</p>
                     <ul>
                         <li>Access your data</li>
@@ -156,7 +156,7 @@ export default function PrivacyPolicyPage() {
                     </ul>
                     <p>Contact us at [Insert Contact Email] to make such requests.</p>
 
-                    <h2>7. Cookies & Tracking Technologies</h2>
+                    <h2 className="text-2xl mt-12 mb-4">7. Cookies & Tracking Technologies</h2>
                     <p>We may use:</p>
                     <ul>
                         <li>Essential cookies</li>
@@ -167,13 +167,13 @@ export default function PrivacyPolicyPage() {
                     </ul>
                     <p>You may disable cookies via your browser, but some features may stop working.</p>
 
-                    <h2>8. Children’s Privacy</h2>
+                    <h2 className="text-2xl mt-12 mb-4">8. Children’s Privacy</h2>
                     <p>VentureConnect is not intended for individuals under 18. We do not knowingly collect data from minors. If you believe a minor has used the Platform, contact us and we will remove the data.</p>
 
-                    <h2>9. Third-Party Links</h2>
+                    <h2 className="text-2xl mt-12 mb-4">9. Third-Party Links</h2>
                     <p>The Platform may link to external websites. We are not responsible for the privacy practices of third-party sites.</p>
 
-                    <h2>10. International Data Transfers</h2>
+                    <h2 className="text-2xl mt-12 mb-4">10. International Data Transfers</h2>
                     <p>Your information may be stored or processed in:</p>
                     <ul>
                         <li>India</li>
@@ -183,7 +183,7 @@ export default function PrivacyPolicyPage() {
                     </ul>
                     <p>By using the Platform, you consent to cross-border data transfer.</p>
                     
-                    <h2>11. Updates to this Privacy Policy</h2>
+                    <h2 className="text-2xl mt-12 mb-4">11. Updates to this Privacy Policy</h2>
                     <p>We may modify this policy at any time. If we make significant changes, we will:</p>
                     <ul>
                         <li>Notify users via email, or</li>
