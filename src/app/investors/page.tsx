@@ -184,7 +184,7 @@ export default function InvestorsPage() {
                     <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">A Simple Path to Investment</h2>
                     </div>
-                    <div className="relative grid gap-10 sm:grid-cols-3">
+                    <div className="relative mx-auto max-w-5xl grid gap-10 sm:grid-cols-3">
                         <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-full bg-border hidden sm:block"></div>
                         {howItWorksSteps.map((step) => (
                             <div key={step.step} className="relative flex flex-col items-center text-center p-4">
