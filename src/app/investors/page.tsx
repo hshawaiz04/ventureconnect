@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, MessageCircle, Search, Star, FileText, Bell, BarChart, ShieldCheck, Filter } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+
 
 const whyInvestFeatures = [
     {
@@ -102,12 +105,24 @@ const safetyFeatures = [
 
 
 export default function InvestorsPage() {
+    const heroImage = PlaceHolderImages.find(img => img.id === 'investors-hero');
     return (
         <div className="flex flex-col min-h-screen">
-            <section className="bg-secondary text-primary-foreground py-20 md:py-32">
-                <div className="container mx-auto px-4 md:px-6 text-center">
+             <section className="relative w-full h-[50vh] flex items-center justify-center">
+                {heroImage && (
+                <Image
+                    src={heroImage.imageUrl}
+                    alt={heroImage.description}
+                    fill
+                    className="object-cover"
+                    priority
+                    data-ai-hint={heroImage.imageHint}
+                />
+                )}
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="relative container px-4 md:px-6 text-center text-primary-foreground z-10">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline mb-4">Discover High-Potential Startups. Invest With Confidence.</h1>
-                    <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+                    <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
                         Explore verified business ideas, connect with founders, and access curated opportunities tailored to your investment preferences.
                     </p>
                     <div className="flex justify-center gap-4">

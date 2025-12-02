@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ListFilter, Search } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const proposals = [
     {
@@ -54,69 +55,84 @@ const proposals = [
 
 
 export default function ProposalsPage() {
+    const heroImage = PlaceHolderImages.find(img => img.id === 'proposals-hero');
     return (
-        <div className="w-full py-12 md:py-16">
-            <div className="container px-4 md:px-6">
-                <div className="flex flex-col items-start justify-center space-y-4 mb-8">
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+        <div className="flex flex-col min-h-screen">
+            <section className="relative w-full h-[50vh] flex items-center justify-center">
+                {heroImage && (
+                <Image
+                    src={heroImage.imageUrl}
+                    alt={heroImage.description}
+                    fill
+                    className="object-cover"
+                    priority
+                    data-ai-hint={heroImage.imageHint}
+                />
+                )}
+                <div className="absolute inset-0 bg-black/60" />
+                <div className="relative container px-4 md:px-6 text-center text-primary-foreground z-10">
+                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline mb-4">
                         Explore Business Ideas
                     </h1>
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
+                    <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
                         Discover the next big thing. Filter by category or search for keywords to find your perfect investment.
                     </p>
                 </div>
-
-                <div className="flex items-center gap-4 mb-8">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input placeholder="Search proposals by keyword..." className="pl-10" />
-                    </div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="gap-1">
-                                <ListFilter className="h-4 w-4" />
-                                <span>Filter</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Filter by Category</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>FinTech</DropdownMenuItem>
-                            <DropdownMenuItem>HealthTech</DropdownMenuItem>
-                            <DropdownMenuItem>E-commerce</DropdownMenuItem>
-                            <DropdownMenuItem>Sustainability</DropdownMenuItem>
-                            <DropdownMenuItem>AgriTech</DropdownMenuItem>
-                            <DropdownMenuItem>EdTech</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <Link href="/post/idea">
-                        <Button>Post an Idea</Button>
-                    </Link>
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {proposals.map((proposal) => (
-                        <Card key={proposal.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                        <CardHeader>
-                          <div className="flex justify-between items-start gap-2">
-                            <CardTitle className="pr-2">{proposal.title}</CardTitle>
-                            <span className="text-xs font-semibold bg-secondary text-secondary-foreground rounded-full px-2 py-1 whitespace-nowrap">{proposal.category}</span>
-                          </div>
-                          <CardDescription>
-                            <span className="font-semibold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)}</span> in funding sought
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-grow">
-                          <p className="text-sm text-muted-foreground line-clamp-3">{proposal.description}</p>
-                        </CardContent>
-                        <div className="p-6 pt-0">
-                          <Button variant="outline" className="w-full" asChild>
-                            {/* This would link to a dynamic proposal page e.g. /proposals/${proposal.id} */}
-                            <Link href="#">View Details</Link>
-                          </Button>
+            </section>
+            <div className="w-full py-12 md:py-16">
+                <div className="container px-4 md:px-6">
+                    <div className="flex items-center gap-4 mb-8">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                            <Input placeholder="Search proposals by keyword..." className="pl-10" />
                         </div>
-                      </Card>
-                    ))}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="gap-1">
+                                    <ListFilter className="h-4 w-4" />
+                                    <span>Filter</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Filter by Category</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>FinTech</DropdownMenuItem>
+                                <DropdownMenuItem>HealthTech</DropdownMenuItem>
+                                <DropdownMenuItem>E-commerce</DropdownMenuItem>
+                                <DropdownMenuItem>Sustainability</DropdownMenuItem>
+                                <DropdownMenuItem>AgriTech</DropdownMenuItem>
+                                <DropdownMenuItem>EdTech</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        <Link href="/post/idea">
+                            <Button>Post an Idea</Button>
+                        </Link>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {proposals.map((proposal) => (
+                            <Card key={proposal.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                            <CardHeader>
+                            <div className="flex justify-between items-start gap-2">
+                                <CardTitle className="pr-2">{proposal.title}</CardTitle>
+                                <span className="text-xs font-semibold bg-secondary text-secondary-foreground rounded-full px-2 py-1 whitespace-nowrap">{proposal.category}</span>
+                            </div>
+                            <CardDescription>
+                                <span className="font-semibold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)}</span> in funding sought
+                            </CardDescription>
+                            </CardHeader>
+                            <CardContent className="flex-grow">
+                            <p className="text-sm text-muted-foreground line-clamp-3">{proposal.description}</p>
+                            </CardContent>
+                            <div className="p-6 pt-0">
+                            <Button variant="outline" className="w-full" asChild>
+                                {/* This would link to a dynamic proposal page e.g. /proposals/${proposal.id} */}
+                                <Link href="#">View Details</Link>
+                            </Button>
+                            </div>
+                        </Card>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

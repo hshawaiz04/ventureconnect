@@ -5,6 +5,36 @@
       "description": "Abstract background image for hero section",
       "imageUrl": "https://images.unsplash.com/photo-1707077865701-2854996afc4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxvZmZpY2UlMjBidWlsZGluZ3xlbnwwfHx8fDE3NjQ1NzY0MzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "office building"
+    },
+    {
+      "id": "investors-hero",
+      "description": "Image for investors page hero section showing a modern office",
+      "imageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpbnZlc3RvcnMlMjBtaW5pbWFsZmljZSUyMGNsZWFufGVufDB8fHx8MTc2NDgzMjU2NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "people talking"
+    },
+    {
+      "id": "proposals-hero",
+      "description": "Image for proposals page hero section showing creative collaboration",
+      "imageUrl": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMG1lZXRpbmd8ZW58MHx8fHwxNzY0ODMyNjA3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "business meeting"
+    },
+    {
+      "id": "post-idea-hero",
+      "description": "Image for post idea page hero showing a lightbulb moment",
+      "imageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsaWdodGJ1bGJ8ZW58MHx8fHwxNzY0ODMyNjM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lightbulb idea"
+    },
+    {
+      "id": "pricing-hero",
+      "description": "Image for pricing page hero showing clear options",
+      "imageUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBvZmZpY2V8ZW58MHx8fHwxNzY0ODMyNjc0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern office"
+    },
+    {
+      "id": "legal-hero",
+      "description": "Generic image for legal pages like privacy and terms",
+      "imageUrl": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsYXd8ZW58MHx8fHwxNzY0ODMyNzE4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "desk document"
     }
   ]
 }
