@@ -12,7 +12,7 @@ export function Footer() {
           </p>
         </div>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <Link href="#" className="hover:text-primary">Terms of Service</Link>
+          <Link href="/terms" className="hover:text-primary">Terms of Service</Link>
           <Link href="#" className="hover:text-primary">Privacy Policy</Link>
         </div>
       </div>
