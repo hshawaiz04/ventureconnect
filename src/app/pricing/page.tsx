@@ -77,7 +77,7 @@ export default function PricingPage() {
         <div className="container px-4 md:px-6">
           <div className="mx-auto grid max-w-5xl items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {plans.map((plan) => (
-              <Card key={plan.title} className="flex flex-col h-full">
+              <Card key={plan.title} className="flex flex-col h-full border-primary shadow-lg">
                 <CardHeader>
                   <CardTitle>{plan.title}</CardTitle>
                   <div className="flex items-baseline">
@@ -97,7 +97,7 @@ export default function PricingPage() {
                   </ul>
                 </CardContent>
                 <div className="p-6 pt-0 mt-auto">
-                  <Button className="w-full" variant="outline">
+                  <Button className="w-full">
                     {plan.cta}
                   </Button>
                 </div>
