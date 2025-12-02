@@ -1,8 +1,9 @@
 
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Check, CheckCircle, FileText, MessageSquare, Briefcase, BookOpen, GraduationCap, BarChart, Scale, ShieldCheck, UserCheck, Calendar, File, LayoutTemplate, BarChart2 } from "lucide-react";
+import { CheckCircle, FileText, MessageSquare, Briefcase, BookOpen, GraduationCap, BarChart, Scale, ShieldCheck, UserCheck, Calendar, File, LayoutTemplate, BarChart2, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -244,4 +245,29 @@ export default function AdvicePage() {
                         {faqs.map((faq, index) => (
                             <AccordionItem key={index} value={`item-${index}`}>
                                 <AccordionTrigger className="text-lg text-left hover:no-underline">{faq.q}</AccordionTrigger>
-...
+                                <AccordionContent className="text-muted-foreground">
+                                {faq.a}
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+            </section>
+
+            <section className="py-20 bg-background">
+                <div className="container mx-auto px-4 md:px-6 text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">Empower Your Business with Expert Insights.</h2>
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">Get personalized advice today.</p>
+                    <div className="flex justify-center gap-4">
+                        <Button size="lg" asChild>
+                            <Link href="#">Talk to an Advisor</Link>
+                        </Button>
+                        <Button size="lg" variant="secondary" asChild>
+                            <Link href="#">Explore All Experts</Link>
+                        </Button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+}
