@@ -146,7 +146,7 @@ export default function AdvicePage() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
                         {featuredAdvisors.map(advisor => (
                             <Card key={advisor.name} className="flex flex-col text-center items-center">
-                                <CardHeader>
+                                <CardHeader className="items-center">
                                     <Avatar className="w-20 h-20 mb-4">
                                         <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${advisor.name}`} alt={advisor.name} />
                                         <AvatarFallback>{advisor.name.charAt(0)}</AvatarFallback>
@@ -271,3 +271,5 @@ export default function AdvicePage() {
         </div>
     );
 }
+
+    
