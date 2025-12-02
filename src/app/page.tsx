@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -158,7 +159,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="relative mx-auto max-w-5xl grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
              <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-full bg-border hidden sm:block"></div>
               {howItWorksSteps.map((step) => (
                   <div key={step.step} className="relative flex flex-col items-center text-center p-4">
@@ -230,3 +231,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
