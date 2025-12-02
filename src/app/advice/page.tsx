@@ -143,7 +143,7 @@ export default function AdvicePage() {
             <section className="py-16 md:py-24 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <h2 className="text-3xl md:text-4xl font-bold text-center font-headline mb-12">Featured Advisors</h2>
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
                         {featuredAdvisors.map(advisor => (
                             <Card key={advisor.name} className="flex flex-col text-center items-center">
                                 <CardHeader>
@@ -158,7 +158,7 @@ export default function AdvicePage() {
                                     <p className="text-sm"><span className="font-semibold">Expertise:</span> {advisor.expertise}</p>
                                     <p className="text-sm text-muted-foreground">{advisor.experience}</p>
                                 </CardContent>
-                                <div className="p-6 pt-0 w-full">
+                                <div className="p-6 pt-0 w-full mt-auto">
                                     <Button className="w-full" asChild>
                                         <Link href={advisor.ctaLink}>{advisor.cta}</Link>
                                     </Button>
