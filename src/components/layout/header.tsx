@@ -3,17 +3,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Handshake, Menu, LayoutDashboard, LogOut } from "lucide-react";
+import { Handshake, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useUser } from "@/firebase/auth/use-user";
-import { getAuth, signOut } from "firebase/auth";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-
-const defaultNavLinks = [
+const navLinks = [
   { href: "/proposals", label: "Business Ideas" },
   { href: "/investors", label: "Investors" },
   { href: "/loans", label: "Loans" },
@@ -21,84 +15,50 @@ const defaultNavLinks = [
   { href: "/pricing", label: "Pricing" },
 ];
 
-const businessNavLinks = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  ...defaultNavLinks,
-];
-
-
 export function Header() {
   const pathname = usePathname();
-  const { user, userData, loading } = useUser();
-  const auth = getAuth();
-  const { toast } = useToast();
-  const router = useRouter();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      toast({ title: "Signed out successfully." });
-      router.push('/');
-    } catch (error) {
-      toast({ variant: 'destructive', title: "Error signing out.", description: (error as Error).message });
-    }
-  }
-
-  const navLinks = userData?.role === 'business owner' ? businessNavLinks : defaultNavLinks;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex items-center h-16">
+      {/* FULL WIDTH GRID — no container */}
+      <div className="w-full grid grid-cols-[auto_1fr_auto] items-center h-16 px-4 sm:px-6 lg:px-8">
 
-        <div className="flex items-center gap-3 mr-auto">
-          <Link href="/" className="flex items-center gap-2">
-            <Handshake className="h-6 w-6 text-primary" />
-            <span className="font-bold sm:inline-block">VentureConnect</span>
-          </Link>
-        </div>
+        {/* LEFT - Logo */}
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Handshake className="h-6 w-6 text-primary" />
+          <span className="font-bold sm:inline-block">VentureConnect</span>
+        </Link>
 
-        <nav className="hidden md:flex items-center gap-8 whitespace-nowrap">
+        {/* CENTER - Nav Links (perfectly centered) */}
+        <nav className="hidden md:flex items-center gap-8 whitespace-nowrap justify-self-center">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "transition-colors hover:text-primary text-sm font-medium flex items-center gap-2",
+                "transition-colors hover:text-primary text-sm font-medium",
                 pathname === link.href ? "text-primary" : "text-muted-foreground"
               )}
             >
-              {link.icon && <link.icon className="h-4 w-4" />}
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-4">
+        {/* RIGHT SIDE - Auth + Mobile Menu */}
+        <div className="flex items-center gap-4 justify-self-end">
+          
+          {/* Desktop buttons */}
           <div className="hidden md:flex items-center gap-4">
-             {loading ? (
-              <div className="w-24 h-8 bg-muted rounded-md animate-pulse" />
-            ) : user ? (
-              <>
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user.photoURL ?? undefined} alt={user.displayName ?? ""} />
-                  <AvatarFallback>{user.displayName?.charAt(0) ?? user.email?.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <Button variant="ghost" size="icon" onClick={handleSignOut} aria-label="Sign out">
-                  <LogOut className="h-4 w-4" />
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link href="/sign-in">Login</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/sign-up">Sign Up</Link>
-                </Button>
-              </>
-            )}
+            <Button variant="ghost" asChild>
+              <Link href="/sign-in">Login</Link>
+            </Button>
+            <Button asChild>
+              <Link href="/sign-up">Sign Up</Link>
+            </Button>
           </div>
 
+          {/* Mobile hamburger menu */}
           <div className="flex items-center md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -120,34 +80,24 @@ export function Header() {
                       key={link.href}
                       href={link.href}
                       className={cn(
-                        "transition-colors hover:text-primary text-lg flex items-center gap-3",
+                        "transition-colors hover:text-primary text-lg",
                         pathname === link.href
                           ? "text-primary font-semibold"
                           : "text-muted-foreground"
                       )}
                     >
-                      {link.icon && <link.icon className="h-5 w-5" />}
                       {link.label}
                     </Link>
                   ))}
                 </div>
-                
-                 <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3">
-                  {user ? (
-                     <Button onClick={handleSignOut}>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Sign Out
-                      </Button>
-                  ) : (
-                    <>
-                      <Button variant="ghost" asChild>
-                        <Link href="/sign-in">Login</Link>
-                      </Button>
-                      <Button asChild>
-                        <Link href="/sign-up">Sign Up</Link>
-                      </Button>
-                    </>
-                  )}
+
+                <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3">
+                  <Button variant="ghost" asChild>
+                    <Link href="/sign-in">Login</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/sign-up">Sign Up</Link>
+                  </Button>
                 </div>
               </SheetContent>
             </Sheet>
