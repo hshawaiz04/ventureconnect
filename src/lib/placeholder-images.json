@@ -39,8 +39,14 @@
     {
       "id": "loans-hero",
       "description": "Image for the loans page hero section showing a person signing a document.",
-      "imageUrl": "https://images.unsplash.com/photo-1554224155-1696413565d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb25leSUyMGNhbGN1bGF0b3J8ZW58MHx8fHwxNzY1Mzk5ODk5fDA&ixlib=rb-4.0.3&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1554224155-1696413565d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
       "imageHint": "calculator money"
+    },
+    {
+      "id": "advice-hero",
+      "description": "Image for the advice page hero section showing a person mentoring another.",
+      "imageUrl": "https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      "imageHint": "mentor advice"
     }
   ]
 }
