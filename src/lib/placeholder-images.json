@@ -35,6 +35,12 @@
       "description": "Generic image for legal pages like privacy and terms",
       "imageUrl": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsYXd8ZW58MHx8fHwxNzY0ODMyNzE4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "desk document"
+    },
+    {
+      "id": "loans-hero",
+      "description": "Image for the loans page hero section",
+      "imageUrl": "https://images.unsplash.com/photo-1600880292203-942699855b31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGxvYW58ZW58MHx8fHwxNzY0ODMyNzUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "financial discussion"
     }
   ]
 }
