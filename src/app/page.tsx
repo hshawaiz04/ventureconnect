@@ -102,7 +102,7 @@ export default function Home() {
           />
         )}
         <div className="absolute inset-0 bg-black/60" />
-        <div className="relative container px-4 md:px-6 text-center text-primary-foreground z-10">
+        <div className="relative container mx-auto px-4 md:px-6 text-center text-primary-foreground z-10">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none font-headline">
             Connecting Innovators with Capital
           </h1>
@@ -118,7 +118,7 @@ export default function Home() {
       </section>
 
       <section id="roles" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
-        <div className="container px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Choose Your Path</div>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Are you a...</h2>
@@ -148,7 +148,7 @@ export default function Home() {
       </section>
       
       <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">How It Works</div>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">A Simple Path to Partnership</h2>
@@ -170,7 +170,7 @@ export default function Home() {
       </section>
 
       <section id="featured" className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
-        <div className="container px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Featured Ideas</div>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline">Hot Right Now</h2>
@@ -205,7 +205,7 @@ export default function Home() {
       </section>
 
       <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+        <div className="container mx-auto px-4 md:px-6 flex flex-col items-center justify-center text-center">
           <div className="space-y-3">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight font-headline">
               Ready to Build the Future?
@@ -214,7 +214,7 @@ export default function Home() {
               Join our community of innovators, investors, and experts today. Your next big opportunity is just a click away.
             </p>
           </div>
-          <div className="mx-auto w-full max-w-sm space-y-2">
+          <div className="mx-auto w-full max-w-sm space-y-2 mt-6">
             <Button size="lg" className="w-full" asChild>
               <Link href="/sign-up">
                 Join VentureConnect Now
@@ -226,5 +226,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
