@@ -23,37 +23,36 @@ export function Header() {
       <div className="container flex h-14 items-center">
         {/* Desktop Header */}
         <div className="hidden w-full items-center justify-between md:flex">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <Handshake className="h-6 w-6 text-primary" />
-              <span className="font-bold sm:inline-block">
-                VentureConnect
-              </span>
-            </Link>
-            <nav className="flex items-center space-x-6 text-sm font-medium">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "transition-colors hover:text-primary",
-                    pathname === link.href ? "text-primary" : "text-muted-foreground"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          <Link href="/" className="flex items-center space-x-2">
+            <Handshake className="h-6 w-6 text-primary" />
+            <span className="font-bold sm:inline-block">
+              VentureConnect
+            </span>
+          </Link>
+          
+          <nav className="flex items-center gap-10 text-sm font-medium">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "transition-colors hover:text-primary",
+                  pathname === link.href ? "text-primary" : "text-muted-foreground"
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-          <nav className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <Button variant="ghost" asChild>
                 <Link href="/sign-in">Login</Link>
             </Button>
             <Button asChild>
                 <Link href="/sign-up">Sign Up</Link>
             </Button>
-          </nav>
+          </div>
         </div>
         
         {/* Mobile Header */}
