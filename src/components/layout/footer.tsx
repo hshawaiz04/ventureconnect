@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Handshake } from 'lucide-react';
 
@@ -13,7 +14,7 @@ export function Footer() {
         </div>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <Link href="/terms" className="hover:text-primary">Terms of Service</Link>
-          <Link href="#" className="hover:text-primary">Privacy Policy</Link>
+          <Link href="/privacy" className="hover:text-primary">Privacy Policy</Link>
         </div>
       </div>
     </footer>
