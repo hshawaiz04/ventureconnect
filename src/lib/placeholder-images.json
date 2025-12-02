@@ -38,9 +38,9 @@
     },
     {
       "id": "loans-hero",
-      "description": "Image for the loans page hero section",
-      "imageUrl": "https://images.unsplash.com/photo-1554224155-16954305f550?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMGxvYW58ZW58MHx8fHwxNzY0ODMyNzUxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "financial calculation"
+      "description": "Image for the loans page hero section showing a piggy bank and loan agreement",
+      "imageUrl": "https://storage.googleapis.com/aai-web-samples/nextjs/venture-connect/loan_hero.png",
+      "imageHint": "loan agreement"
     }
   ]
 }
