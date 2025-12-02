@@ -22,37 +22,44 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         {/* Desktop Header */}
-        <div className="hidden w-full items-center justify-between md:flex">
-          <Link href="/" className="flex items-center space-x-2">
-            <Handshake className="h-6 w-6 text-primary" />
-            <span className="font-bold sm:inline-block">
-              VentureConnect
-            </span>
-          </Link>
-          
-          <nav className="flex items-center gap-10 text-sm font-medium">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "transition-colors hover:text-primary",
-                  pathname === link.href ? "text-primary" : "text-muted-foreground"
-                )}
-              >
-                {link.label}
+        <div className="hidden w-full items-center md:flex">
+          <nav className="w-full flex items-center justify-between px-8">
+            <div className="flex items-center gap-2">
+              <Link href="/" className="flex items-center space-x-2">
+                <Handshake className="h-6 w-6 text-primary" />
+                <span className="font-bold sm:inline-block">
+                  VentureConnect
+                </span>
               </Link>
-            ))}
-          </nav>
+            </div>
+            
+            <div className="flex items-center gap-8 mx-auto">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "transition-colors hover:text-primary text-sm font-medium",
+                    pathname === link.href ? "text-primary" : "text-muted-foreground"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+               <Button variant="ghost" asChild>
+                  <Link href="/sign-in" className={cn(
+                    "transition-colors hover:text-primary text-sm font-medium",
+                    pathname === "/sign-in" ? "text-primary" : "text-muted-foreground"
+                  )}>Login</Link>
+              </Button>
+            </div>
 
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" asChild>
-                <Link href="/sign-in">Login</Link>
-            </Button>
-            <Button asChild>
-                <Link href="/sign-up">Sign Up</Link>
-            </Button>
-          </div>
+            <div className="flex items-center">
+              <Button asChild>
+                  <Link href="/sign-up">Sign Up</Link>
+              </Button>
+            </div>
+          </nav>
         </div>
         
         {/* Mobile Header */}
