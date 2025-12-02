@@ -1,4 +1,5 @@
 
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -186,13 +187,13 @@ export default function Home() {
           <div className="mx-auto max-w-4xl grid grid-cols-1 gap-6 pt-12">
             {featuredProposals.map((proposal) => (
               <Card key={proposal.id} className="hover:shadow-lg transition-shadow duration-300">
-                <div className="grid grid-cols-[1fr_auto] items-center p-6">
-                  <div>
+                <div className="flex items-center justify-between p-6">
+                  <div className="flex-grow">
                     <h3 className="text-lg font-semibold">{proposal.title}</h3>
                     <p className="text-sm text-muted-foreground">{proposal.description}</p>
                     <p className="text-primary font-semibold mt-2">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(proposal.fundingGoal)} sought</p>
                   </div>
-                  <Button variant="outline" asChild>
+                  <Button variant="outline" asChild className="ml-6 flex-shrink-0">
                     <Link href={`/proposals`}>View Details <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
                 </div>
@@ -231,5 +232,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
