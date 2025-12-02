@@ -50,14 +50,14 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex items-center h-16">
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 mr-auto">
           <Link href="/" className="flex items-center gap-2">
             <Handshake className="h-6 w-6 text-primary" />
             <span className="font-bold sm:inline-block">VentureConnect</span>
           </Link>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 mx-auto whitespace-nowrap">
+        <nav className="hidden md:flex items-center gap-8 whitespace-nowrap">
           {navLinks.map((link) => (
             <Link
               key={link.href}
