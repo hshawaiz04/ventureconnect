@@ -10,7 +10,6 @@ export default function PrivacyPolicyPage() {
                 <CardHeader>
                     <CardTitle className="text-3xl font-headline text-center">Privacy Policy</CardTitle>
                     <p className="text-center text-muted-foreground pt-2">Last Updated: {currentDate}</p>
-                    <p className="text-center text-muted-foreground">Effective Date: {currentDate}</p>
                 </CardHeader>
                 <CardContent className="prose-sm md:prose-base max-w-none text-card-foreground prose-headings:text-primary prose-headings:font-headline prose-headings:font-bold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-12 prose-p:text-muted-foreground prose-strong:text-card-foreground prose-ul:list-disc prose-ul:ml-6 prose-li:text-muted-foreground prose-p:mb-4 prose-ul:mb-4">
                     <p>Welcome to VentureConnect (“we,” “us,” “our”). This Privacy Policy explains how we collect, use, store, protect, and share your information when you use our website, mobile application, or related services (“Platform” or “Services”).</p>
@@ -54,35 +53,35 @@ export default function PrivacyPolicyPage() {
                     <p>We use your data to:</p>
                     <h3>2.1 Provide and Improve the Platform</h3>
                     <ul>
-                        <li>Create and manage user accounts</li>
-                        <li>Enable communication between investors & entrepreneurs</li>
-                        <li>Display proposals, offers, and profiles</li>
-                        <li>Improve security, features, and user experience</li>
+                      <li>Create and manage user accounts</li>
+                      <li>Enable communication between investors & entrepreneurs</li>
+                      <li>Display proposals, offers, and profiles</li>
+                      <li>Improve security, features, and user experience</li>
                     </ul>
                     <h3>2.2 Ensure Safety & Compliance</h3>
                     <ul>
-                        <li>Prevent fraud or misuse</li>
-                        <li>Verify identity when needed</li>
-                        <li>Enforce platform terms</li>
-                        <li>Detect suspicious activity</li>
-                        <li>Respond to legal obligations</li>
+                      <li>Prevent fraud or misuse</li>
+                      <li>Verify identity when needed</li>
+                      <li>Enforce platform terms</li>
+                      <li>Detect suspicious activity</li>
+                      <li>Respond to legal obligations</li>
                     </ul>
                     <h3>2.3 Personalization</h3>
                     <ul>
-                        <li>Recommend proposals or investors</li>
-                        <li>Customize dashboards</li>
-                        <li>Suggest relevant industries or matches</li>
+                      <li>Recommend proposals or investors</li>
+                      <li>Customize dashboards</li>
+                      <li>Suggest relevant industries or matches</li>
                     </ul>
                     <h3>2.4 Payments</h3>
                     <ul>
-                        <li>Process subscription fees or premium features</li>
-                        <li>Handle billing and invoicing</li>
+                      <li>Process subscription fees or premium features</li>
+                      <li>Handle billing and invoicing</li>
                     </ul>
                     <h3>2.5 Communication</h3>
                     <ul>
-                        <li>Send confirmations, alerts, updates</li>
-                        <li>Notify users about changes or new features</li>
-                        <li>Provide support and resolve issues</li>
+                      <li>Send confirmations, alerts, updates</li>
+                      <li>Notify users about changes or new features</li>
+                      <li>Provide support and resolve issues</li>
                     </ul>
 
                     <h2>3. Sharing Your Information</h2>
@@ -93,8 +92,8 @@ export default function PrivacyPolicyPage() {
                     <ul>
                         <li>Entrepreneurs may share proposal details with investors</li>
                         <li>Investors may reveal selected profile information to entrepreneurs</li>
-                        <li>You control what you upload — we only display what you choose to share.</li>
                     </ul>
+                    <p>You control what you upload — we only display what you choose to share.</p>
                     <h3>3.2 Service Providers</h3>
                     <p>Trusted partners may receive only necessary data:</p>
                     <ul>
@@ -125,7 +124,7 @@ export default function PrivacyPolicyPage() {
                         <li>Firewall & intrusion monitoring</li>
                     </ul>
                     <p>However, no system is 100% secure. You use the Platform at your own risk.</p>
-
+                    
                     <h2>5. Data Retention</h2>
                     <p>We retain your information:</p>
                     <ul>
@@ -145,7 +144,7 @@ export default function PrivacyPolicyPage() {
                         <li>Restrict or object to certain processing</li>
                         <li>Withdraw consent (where applicable)</li>
                     </ul>
-                    <p>Contact us at privacy@ventureconnect.com to make such requests.</p>
+                    <p>Contact us at [Insert Contact Email] to make such requests.</p>
 
                     <h2>7. Cookies & Tracking Technologies</h2>
                     <p>We may use:</p>
@@ -173,7 +172,7 @@ export default function PrivacyPolicyPage() {
                         <li>Other regions where service providers operate</li>
                     </ul>
                     <p>By using the Platform, you consent to cross-border data transfer.</p>
-
+                    
                     <h2>11. Updates to this Privacy Policy</h2>
                     <p>We may modify this policy at any time. If we make significant changes, we will:</p>
                     <ul>
@@ -181,7 +180,6 @@ export default function PrivacyPolicyPage() {
                         <li>Display a notice within the app/website</li>
                     </ul>
                     <p>Continued use means you accept the updated policy.</p>
-
                 </CardContent>
             </Card>
         </div>
