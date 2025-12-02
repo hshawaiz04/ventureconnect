@@ -202,7 +202,7 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center mt-12">
-            <Button size="lg" variant="link" asChild>
+            <Button asChild>
               <Link href="/proposals">
                 Explore All Proposals <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -233,3 +233,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
