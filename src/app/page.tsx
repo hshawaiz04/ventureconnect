@@ -128,7 +128,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto grid max-w-5xl items-start gap-6 py-12 lg:grid-cols-4 md:grid-cols-2">
+          <div className="mx-auto grid max-w-5xl items-stretch gap-6 py-12 lg:grid-cols-4 md:grid-cols-2">
             {roles.map((role) => (
               <Card key={role.title} className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
                 <CardHeader className="items-center">
@@ -137,8 +137,9 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="flex-grow text-center">
                   <p className="text-sm text-muted-foreground">{role.description}</p>
+
                 </CardContent>
-                <div className="p-6 pt-0">
+                <div className="p-6 pt-0 mt-auto">
                   <Button className="w-full" asChild>
                     <Link href={role.link}>{role.cta}</Link>
                   </Button>
@@ -160,12 +161,12 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="relative mx-auto max-w-5xl grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="relative mx-auto max-w-5xl grid gap-10 sm:grid-cols-4">
              <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-full bg-border hidden sm:block"></div>
               {howItWorksSteps.map((step) => (
                   <div key={step.step} className="relative flex flex-col items-center text-center p-4">
-                      <div className="absolute -top-4 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold z-10 border-4 border-background">{step.step}</div>
-                      <h3 className="mt-8 text-xl font-bold">{step.title}</h3>
+                      <div className="absolute -top-5 h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold z-10 border-4 border-background">{step.step}</div>
+                      <h3 className="mt-10 text-xl font-bold">{step.title}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
                   </div>
               ))}
@@ -187,7 +188,7 @@ export default function Home() {
           <div className="mx-auto max-w-4xl grid grid-cols-1 gap-6 pt-12">
             {featuredProposals.map((proposal) => (
               <Card key={proposal.id} className="hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center justify-between p-6">
+                <CardContent className="flex items-center justify-between p-6">
                   <div className="flex-grow">
                     <h3 className="text-lg font-semibold">{proposal.title}</h3>
                     <p className="text-sm text-muted-foreground">{proposal.description}</p>
@@ -196,7 +197,7 @@ export default function Home() {
                   <Button variant="outline" asChild className="ml-6 flex-shrink-0">
                     <Link href={`/proposals`}>View Details <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
-                </div>
+                </CardContent>
               </Card>
             ))}
           </div>
