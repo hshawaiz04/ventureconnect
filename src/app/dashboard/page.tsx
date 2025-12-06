@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Check, Edit, Plus, Share2, Trash2 } from "lucide-react";
 import { useUser, type UserData } from '@/firebase/auth/use-user';
 import seedData from '@/../sample-data/seed.json';
+import Link from 'next/link';
 
 // This is a placeholder for a real data fetching hook
 const useFirestoreData = (user: UserData | null) => {
@@ -100,10 +101,12 @@ export default function DashboardPage() {
   
   if (!business) {
     return (
-        <div className="container mx-auto p-4 md:p-8 text-center">
+        <div className="container mx-auto p-4 md:p-8 text-center flex flex-col items-center justify-center min-h-[calc(100vh-12rem)]">
             <h2 className="text-2xl font-bold mb-4">No Business Profile Found</h2>
             <p className="text-muted-foreground mb-6">It looks like you haven't set up your business profile yet.</p>
-            <Button>Create Business Profile</Button>
+            <Button asChild>
+                <Link href="/dashboard/create-business">Create Business Profile</Link>
+            </Button>
         </div>
     );
   }
