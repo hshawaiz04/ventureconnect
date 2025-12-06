@@ -9,6 +9,17 @@
       "createdAt": 1717000000000
     },
     {
+      "uid": "investor_1",
+      "role": "investor",
+      "name": "Rohit Verma",
+      "email": "rohit@example.com",
+      "preferences": {
+        "industries": ["Clean Energy","SaaS"],
+        "minRaise": 1000000,
+        "maxRaise": 100000000
+      }
+    },
+    {
       "uid": "investor001",
       "role": "investor",
       "name": "Sophia Patel",
@@ -48,6 +59,16 @@
       "description": "Developing next-gen battery for longer life and faster charging.",
       "status": "Draft",
       "createdAt": 1717000750000
+    },
+    {
+      "id": "sampleProposal1",
+      "ownerUid":"hxm2VlpKAEUrb2qYjZQPFJ1OLEW2",
+      "businessId":"biz_hxm2VlpKAEUrb2qYjZQPFJ1OLEW2",
+      "title":"Series A Funding Round for EcoCharge",
+      "description":"Deploy 200 stations / battery R&D",
+      "amountRequested":10000000,
+      "status":"Open",
+      "createdAt": 1712350000000
     }
   ],
   "views": [
@@ -66,9 +87,17 @@
       "timestamp": 1717000900000
     }
   ],
+  "saved": {
+    "investor_1": {
+      "bookmarks": [
+        { "id": "book1", "type": "business", "refId": "biz_hxm2VlpKAEUrb2qYjZQPFJ1OLEW2", "createdAt": 1712350000000 }
+      ]
+    }
+  },
   "messages": [
     {
       "threadId": "owner123_investor001",
+      "participants": ["owner123", "investor001"],
       "messages": [
         {
           "messageId": "msg1",
@@ -78,6 +107,14 @@
           "createdAt": 1717001000000,
           "read": false
         }
+      ]
+    },
+    {
+      "threadId": "thread_biz_inv",
+      "participants": ["investor_1","hxm2VlpKAEUrb2qYjZQPFJ1OLEW2"],
+      "lastUpdated": 1712350000000,
+      "messages": [
+         { "messageId": "msg1", "from": "investor_1", "text": "Hi — interested in your proposal.", "createdAt": 1712350000000 }
       ]
     }
   ],
