@@ -1,68 +1,44 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Helper functions
-    function isSignedIn() {
-      return request.auth != null;
-    }
 
-    function isOwner(uid) {
-      return request.auth.uid == uid;
-    }
-    
-    function getUserData(uid) {
-      return get(/databases/$(database)/documents/users/$(uid)).data;
-    }
-
-    function isRole(role) {
-      return isSignedIn() && getUserData(request.auth.uid).role == role;
-    }
-    
-    // USERS: Can read their own profile, and create it.
-    // Investors/Advisors can be read by business owners.
-    match /users/{userId} {
-      allow read: if isSignedIn() && 
-                    (isOwner(userId) || isRole('business owner'));
-      allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-    }
-    
-    // BUSINESSES: Owners can CUD their own business.
-    // Authenticated users can read business profiles.
-    match /businesses/{businessId} {
-      allow read: if isSignedIn();
-      allow create: if isSignedIn() && isOwner(request.resource.data.ownerUid);
-      allow update, delete: if isSignedIn() && isOwner(get(/databases/$(database)/documents/businesses/$(businessId)).data.ownerUid);
-    }
-
-    // PROPOSALS: Owners can CUD their own proposals.
-    // Authenticated users can read proposals.
-    match /proposals/{proposalId} {
-      allow create: if request.auth != null
-                    && request.resource.data.ownerUid == request.auth.uid;
+    match /users/{uid} {
       allow read: if request.auth != null;
-      allow update, delete: if request.auth != null
-                            && resource.data.ownerUid == request.auth.uid;
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow update, delete: if request.auth != null && request.auth.uid == uid;
     }
 
-    // VIEWS: Investors can create views. Business owners can read views on their business.
-    match /views/{viewId} {
-      allow read: if isSignedIn() && (
-                      isOwner(get(/databases/$(database)/documents/businesses/$(resource.data.businessId)).data.ownerUid)
-                   );
-      allow create: if isRole('investor') && isOwner(request.resource.data.investorId);
+    match /businesses/{businessId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.ownerUid == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.ownerUid == request.auth.uid;
     }
-    
-    // MESSAGES: Only involved parties can read/write messages.
-    match /messages/{threadId}/{message=**} {
-      allow read, write: if isSignedIn() && (request.auth.uid in threadId.split('_'));
+
+    match /proposals/{proposalId} {
+      allow create: if request.auth != null && request.resource.data.ownerUid == request.auth.uid;
+      allow read: if request.auth != null;
+      allow update, delete: if request.auth != null && resource.data.ownerUid == request.auth.uid;
     }
-    
-    // LOGS: Only backend/admin can write logs. No one can read them directly.
-    match /logs/{logId} {
-      allow read, write: if false; // Assume logs are written by a trusted server/admin
+
+    match /saved/{uid}/bookmarks/{bookmarkId} {
+      allow create: if request.auth != null && uid == request.auth.uid;
+      allow read: if request.auth != null && uid == request.auth.uid;
+      allow delete: if request.auth != null && uid == request.auth.uid;
     }
+
+    match /messages/{threadId} {
+      allow read, write: if request.auth != null
+        && (request.auth.uid in resource.data.participants || request.auth.uid in request.resource.data.participants);
+      match /messages/{msgId} {
+        allow create: if request.auth != null && (request.auth.uid in get(/databases/$(database)/documents/messages/$(threadId)).data.participants);
+        allow read: if request.auth != null && request.auth.uid in resource.data.participants;
+      }
+    }
+
+    match /alerts/{uid}/alerts/{alertId} {
+      allow read, write: if request.auth != null && uid == request.auth.uid;
+    }
+
+    match /{document=**} { allow read, write: if false; }
   }
 }
