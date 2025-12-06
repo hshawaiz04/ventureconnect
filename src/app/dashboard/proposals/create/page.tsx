@@ -19,30 +19,28 @@ export default function CreateProposalPage() {
 
   async function handleCreateProposal(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-  
-    const title = (form.elements.namedItem('title') as HTMLInputElement).value.trim();
-    const description = (form.elements.namedItem('description') as HTMLTextAreaElement).value.trim();
-    const amountRequested = Number((form.elements.namedItem('amountRequested') as HTMLInputElement).value || 0);
-  
-    const res = await debugCreateProposal({ title, description, amountRequested });
-  
-    if (!res.ok) {
-      console.error("Proposal creation failed:", res.err);
+    const form = e.currentTarget as HTMLFormElement;
+    const title = (form.elements.namedItem("title") as HTMLInputElement).value.trim();
+    const description = (form.elements.namedItem("description") as HTMLTextAreaElement).value.trim();
+    const amountRequested = Number((form.elements.namedItem("amountRequested") as HTMLInputElement).value || 0);
+
+    try {
+      const res = await debugCreateProposal({ title, description, amountRequested });
+      if (!res.ok) throw res.err;
+      console.log("Proposal created:", res.id);
+      toast({
+          title: "Proposal Created!",
+          description: "Your new proposal has been saved as a draft.",
+      });
+      router.push("/dashboard");
+    } catch (err) {
+      console.error("Proposal create error:", err);
       toast({
         variant: "destructive",
-        title: "Error creating proposal",
-        description: "Check the console for more details."
+        title: "Could not create proposal",
+        description: "Check the console for more details.",
       });
-      return;
     }
-  
-    console.log("Proposal created:", res.id);
-    toast({
-        title: "Proposal Created!",
-        description: "Your new proposal has been saved as a draft.",
-    });
-    router.push("/dashboard");
   }
 
 
