@@ -14,6 +14,8 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { errorEmitter } from "@/firebase/error-emitter"
+import { FirestorePermissionError } from "@/firebase/errors"
 
 const formSchema = z.object({
   name: z.string().min(2, "Business name must be at least 2 characters."),
@@ -49,28 +51,33 @@ export default function CreateBusinessPage() {
         });
         return;
     }
-    try {
-        await addDoc(collection(firestore, "businesses"), {
-            ...values,
-            ownerUid: user.uid,
-            raisedAmount: 0,
-            profileComplete: 50, // Initial completeness
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-        });
-        toast({
-            title: "Business Profile Created!",
-            description: `${values.name} is now ready to be seen.`,
-        });
-        router.push("/dashboard");
-    } catch (error) {
-        console.error("Error creating business:", error);
-        toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: (error as Error).message || "There was a problem creating your business profile.",
-        });
-    }
+    
+    const businessesCol = collection(firestore, "businesses");
+    const newBusinessData = {
+        ...values,
+        ownerUid: user.uid,
+        raisedAmount: 0,
+        profileComplete: 50, // Initial completeness
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+    };
+
+    addDoc(businessesCol, newBusinessData)
+      .then(() => {
+          toast({
+              title: "Business Profile Created!",
+              description: `${values.name} is now ready to be seen.`,
+          });
+          router.push("/dashboard");
+      })
+      .catch(async (serverError) => {
+          const permissionError = new FirestorePermissionError({
+              path: businessesCol.path,
+              operation: 'create',
+              requestResourceData: newBusinessData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+      });
   }
 
   return (

@@ -1,5 +1,6 @@
+
 import { getAuth } from 'firebase/auth';
-import { initializeFirebase } from '.';
+import { auth } from '.';
 
 export type SecurityRuleContext = {
   path: string;
@@ -12,8 +13,6 @@ export class FirestorePermissionError extends Error {
   public user: any;
 
   constructor(request: SecurityRuleContext) {
-    const { firebaseApp } = initializeFirebase();
-    const auth = getAuth(firebaseApp);
     const user = auth.currentUser;
 
     let userForSigning;
