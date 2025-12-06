@@ -21,7 +21,7 @@ const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry."),
   stage: z.string().min(1, "Please select a business stage."),
   pitch: z.string().min(20, "Pitch must be at least 20 characters.").max(280, "Pitch must be less than 280 characters."),
-  targetRaise: z.coerce.number().min(1000, "Target raise must be at least $1,000."),
+  targetRaise: z.coerce.number().min(100000, "Target raise must be at least ₹1,00,000."),
 })
 
 export default function CreateBusinessPage() {
@@ -37,7 +37,7 @@ export default function CreateBusinessPage() {
       industry: "",
       stage: "",
       pitch: "",
-      targetRaise: 50000,
+      targetRaise: 5000000,
     },
   })
 
@@ -171,9 +171,9 @@ export default function CreateBusinessPage() {
                 name="targetRaise"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Funding Target (USD)</FormLabel>
+                    <FormLabel>Funding Target (INR)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 50000" {...field} />
+                      <Input type="number" placeholder="e.g., 5000000" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

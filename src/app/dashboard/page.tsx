@@ -245,8 +245,8 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-2xl font-bold text-primary">{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(business.raisedAmount)}</span>
-                <span className="text-sm text-muted-foreground">of {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(business.targetRaise)}</span>
+                <span className="text-2xl font-bold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(business.raisedAmount)}</span>
+                <span className="text-sm text-muted-foreground">of {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(business.targetRaise)}</span>
               </div>
               <Progress value={fundingPercentage} />
             </CardContent>
