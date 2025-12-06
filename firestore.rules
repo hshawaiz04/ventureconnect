@@ -40,14 +40,15 @@ service cloud.firestore {
     // PROPOSALS: Owners can CUD their own proposals.
     // Authenticated users can read proposals.
     match /proposals/{proposalId} {
-      function getBusinessOwner() {
-        let businessDoc = get(/databases/$(database)/documents/businesses/$(resource.data.businessId));
+      function getBusinessOwnerFromProposal() {
+        let businessId = get(/databases/$(database)/documents/proposals/$(proposalId)).data.businessId;
+        let businessDoc = get(/databases/$(database)/documents/businesses/$(businessId));
         return businessDoc.data.ownerUid;
       }
-      
+
       allow read: if isSignedIn();
-      allow create: if isOwner(getBusinessOwner());
-      allow update, delete: if isOwner(get(/databases/$(database)/documents/proposals/$(proposalId)).data.businessId);
+      allow create: if isSignedIn() && request.resource.data.businessId != null;
+      allow update, delete: if isOwner(getBusinessOwnerFromProposal());
     }
 
     // VIEWS: Investors can create views. Business owners can read views on their business.

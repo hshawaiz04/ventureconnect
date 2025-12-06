@@ -34,7 +34,7 @@ export class FirestorePermissionError extends Error {
             sign_in_provider:
               user.providerData.length > 0
                 ? user.providerData[0].providerId
-                : 'custom',
+                : 'password',
           },
         },
       };
@@ -44,7 +44,7 @@ export class FirestorePermissionError extends Error {
 {
   "auth": ${JSON.stringify(userForSigning, null, 2)},
   "method": "${request.operation}",
-  "path": "/databases/(default)/documents${request.path}"
+  "path": "/databases/(default)/documents/${request.path}"
 }`;
 
     super(message);
