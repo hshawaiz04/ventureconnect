@@ -38,7 +38,7 @@ export default function CreateBusinessPage() {
       industry: "",
       stage: "",
       pitch: "",
-      targetRaise: 5000000,
+      targetRaise: 100000,
     },
   })
 
@@ -72,7 +72,7 @@ export default function CreateBusinessPage() {
       })
       .catch(async (serverError) => {
           const permissionError = new FirestorePermissionError({
-              path: businessesCol.path,
+              path: `/${businessesCol.path}`,
               operation: 'create',
               requestResourceData: newBusinessData,
           });
@@ -179,7 +179,7 @@ export default function CreateBusinessPage() {
                   <FormItem>
                     <FormLabel>Funding Target (INR)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 5000000" {...field} />
+                      <Input type="number" placeholder="e.g., 100000" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -33,7 +33,7 @@ service cloud.firestore {
     // Authenticated users can read business profiles.
     match /businesses/{businessId} {
       allow read: if isSignedIn();
-      allow create: if isOwner(resource.data.ownerUid);
+      allow create: if isSignedIn() && isOwner(request.resource.data.ownerUid);
       allow update, delete: if isOwner(get(/databases/$(database)/documents/businesses/$(businessId)).data.ownerUid);
     }
 
