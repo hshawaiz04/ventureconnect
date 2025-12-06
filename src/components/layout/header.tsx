@@ -110,8 +110,6 @@ export function Header() {
                         <Link href="/dashboard">Dashboard</Link>
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>Logout</DropdownMenuItem>
                 </DropdownMenuContent>
