@@ -1,47 +1,36 @@
-'use client';
+import { collection, addDoc } from "firebase/firestore";
+import { db, auth } from "@/lib/firebase";
 
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  type Firestore,
-} from 'firebase/firestore';
-import { errorEmitter } from '@/firebase/error-emitter';
-import {
-  FirestorePermissionError,
-  type SecurityRuleContext,
-} from '@/firebase/errors';
-
-export type CreateProposalPayload = {
+export async function debugCreateProposal(payload: {
   title: string;
   description: string;
-};
+  amountRequested?: number;
+}) {
+  const user = auth.currentUser;
+  if (!user) throw new Error("Not authenticated");
 
-export function createProposal(
-  db: Firestore,
-  businessId: string,
-  payload: CreateProposalPayload
-) {
-  if (!businessId) {
-    throw new Error('Business ID is required to create a proposal.');
-  }
+  const businessId = `biz_${user.uid}`;
 
-  const proposalsCol = collection(db, 'proposals');
-
-  const newProposalData = {
-    businessId: businessId,
+  const proposal = {
+    ownerUid: user.uid,
+    businessId,
     title: payload.title,
     description: payload.description,
-    status: 'Draft',
-    createdAt: serverTimestamp(),
+    amountRequested: payload.amountRequested ?? 0,
+    status: "Draft",
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
   };
 
-  addDoc(proposalsCol, newProposalData).catch(async (serverError) => {
-    const permissionError = new FirestorePermissionError({
-      path: proposalsCol.path,
-      operation: 'create',
-      requestResourceData: newProposalData,
-    } satisfies SecurityRuleContext);
-    errorEmitter.emit('permission-error', permissionError);
-  });
+  console.log("[debugCreateProposal] uid=", user.uid);
+  console.log("[debugCreateProposal] proposal=", proposal);
+
+  try {
+    const ref = await addDoc(collection(db, "proposals"), proposal);
+    console.log("[debugCreateProposal] SUCCESS id=", ref.id);
+    return { ok: true, id: ref.id };
+  } catch (err) {
+    console.error("[debugCreateProposal] FAILED", err);
+    return { ok: false, err };
+  }
 }

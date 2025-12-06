@@ -14,6 +14,7 @@ import { useUser } from '@/firebase/auth/use-user';
 import Link from 'next/link';
 import useMyBusiness from "@/lib/useMyBusiness";
 import { useToast } from '@/hooks/use-toast';
+import useProposalsForCurrentBusiness from "@/lib/useProposals";
 
 /* Chart Data */
 const viewsData = [
@@ -40,6 +41,7 @@ export default function DashboardPage() {
   const { user: authUser, userData, loading: userLoading } = useUser();
   const router = useRouter();
   const { business, loading: dataLoading, error: businessError } = useMyBusiness();
+  const { proposals, loading: proposalsLoading } = useProposalsForCurrentBusiness();
   const { toast } = useToast();
   const [isInviteDialogOpen, setInviteDialogOpen] = useState(false);
 
@@ -152,10 +154,20 @@ export default function DashboardPage() {
                 <CardDescription>Manage your funding proposals here.</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {/* If your proposals are stored in Firestore, update this area to read proposals by business id */}
-                  {/* For now, show placeholder if no proposals */}
-                  <p className="text-muted-foreground">No proposals to display (wire proposals query to Firestore to populate).</p>
+                 <div className="space-y-4">
+                  {proposalsLoading ? (
+                    <p>Loading proposals...</p>
+                  ) : proposals.length === 0 ? (
+                    <p className="text-muted-foreground">No proposals yet.</p>
+                  ) : (
+                    proposals.map(p => (
+                      <div key={p.id} className="p-3 rounded-lg bg-secondary mb-2">
+                        <h3 className="font-semibold">{p.title}</h3>
+                        <p className="text-sm text-muted-foreground">{p.description}</p>
+                        <span className="text-xs opacity-70">{p.status}</span>
+                      </div>
+                    ))
+                  )}
                 </div>
               </CardContent>
             </Card>

@@ -34,21 +34,17 @@ service cloud.firestore {
     match /businesses/{businessId} {
       allow read: if isSignedIn();
       allow create: if isSignedIn() && isOwner(request.resource.data.ownerUid);
-      allow update, delete: if isOwner(get(/databases/$(database)/documents/businesses/$(businessId)).data.ownerUid);
+      allow update, delete: if isSignedIn() && isOwner(get(/databases/$(database)/documents/businesses/$(businessId)).data.ownerUid);
     }
 
     // PROPOSALS: Owners can CUD their own proposals.
     // Authenticated users can read proposals.
     match /proposals/{proposalId} {
-      function getBusinessOwnerFromProposal() {
-        let businessId = get(/databases/$(database)/documents/proposals/$(proposalId)).data.businessId;
-        let businessDoc = get(/databases/$(database)/documents/businesses/$(businessId));
-        return businessDoc.data.ownerUid;
-      }
-
-      allow read: if isSignedIn();
-      allow create: if isSignedIn() && request.resource.data.businessId != null;
-      allow update, delete: if isOwner(getBusinessOwnerFromProposal());
+      allow create: if request.auth != null
+                    && request.resource.data.ownerUid == request.auth.uid;
+      allow read: if request.auth != null;
+      allow update, delete: if request.auth != null
+                            && resource.data.ownerUid == request.auth.uid;
     }
 
     // VIEWS: Investors can create views. Business owners can read views on their business.
