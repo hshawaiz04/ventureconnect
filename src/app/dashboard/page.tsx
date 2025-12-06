@@ -14,7 +14,7 @@ import { useUser } from '@/firebase/auth/use-user';
 import Link from 'next/link';
 import useMyBusiness from "@/lib/useMyBusiness";
 import { useToast } from '@/hooks/use-toast';
-import useProposalsForCurrentBusiness from "@/lib/useProposals";
+import useProposalsForCurrentBusiness from "@/lib/useProposals.tsx";
 
 /* Chart Data */
 const viewsData = [
