@@ -1,6 +1,10 @@
+// src/lib/proposalApi.ts
 import { collection, addDoc } from "firebase/firestore";
 import { db, auth } from "@/lib/firebase";
 
+/**
+ * Debug helper: creates a proposal linked to the current user's business.
+ */
 export async function debugCreateProposal(payload: {
   title: string;
   description: string;
