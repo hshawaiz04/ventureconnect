@@ -1,7 +1,6 @@
-// src/app/advisor/dashboard/page.tsx
 "use client";
 
-import React, "useEffect"
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
