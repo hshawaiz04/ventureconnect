@@ -151,6 +151,47 @@
       },
       "required": ["investorUid", "title", "industries", "thesis", "status", "createdAt"]
     },
+    "loanProduct": {
+      "title": "Loan Product",
+      "description": "A loan product or offering created by a banker.",
+      "type": "object",
+      "properties": {
+        "bankerUid": {
+          "type": "string",
+          "description": "The UID of the banker who created this loan product."
+        },
+        "title": {
+          "type": "string",
+          "description": "The name of the loan product, e.g., 'Small Business Term Loan'."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the loan, its benefits, and target audience."
+        },
+        "minAmount": {
+          "type": "number",
+          "description": "The minimum loan amount offered."
+        },
+        "maxAmount": {
+          "type": "number",
+          "description": "The maximum loan amount offered."
+        },
+        "interestRate": {
+          "type": "string",
+          "description": "The interest rate or range, e.g., '10.5% - 14% p.a.'."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the loan product.",
+          "enum": ["Active", "Paused", "Archived"]
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp of when the product was created."
+        }
+      },
+      "required": ["bankerUid", "title", "description", "status", "createdAt"]
+    },
     "article": {
       "title": "Article",
       "description": "An informational article written by a business advisor.",
@@ -289,6 +330,10 @@
       "schema": { "$ref": "#/entities/investorProposal" },
       "description": "Stores proposals created by investors."
     },
+    "/loanProducts/{loanProductId}": {
+      "schema": { "$ref": "#/entities/loanProduct" },
+      "description": "Stores loan products created by bankers."
+    },
     "/articles/{articleId}": {
       "schema": { "$ref": "#/entities/article" },
       "description": "Stores articles written by business advisors for the Knowledge Hub."
@@ -307,3 +352,5 @@
     }
   }
 }
+
+    

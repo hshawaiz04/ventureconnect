@@ -9,11 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Check, X as XIcon, FileText } from "lucide-react";
+import { Check, X as XIcon, FileText, Plus, Landmark } from "lucide-react";
 import { useUser } from "@/firebase/auth/use-user";
 import useDeals from "@/lib/useDeals"; // Re-using deals as loan applications for now
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import useLoanProducts from "@/lib/useLoanProducts";
 
 const applicationsData = [
   { name: "Jan", count: 12 }, { name: "Feb", count: 19 },
@@ -26,9 +27,8 @@ export default function BankerDashboardPage() {
   const router = useRouter();
   const { toast } = useToast();
   
-  // For demonstration, we'll re-use the useDeals hook to simulate loan applications.
-  // In a real app, you'd create a `useLoanApplications` hook.
   const { deals: loanApplications, loading: applicationsLoading } = useDeals();
+  const { loanProducts, loading: productsLoading } = useLoanProducts();
 
   useEffect(() => {
     if (!userLoading && !authUser) {
@@ -49,7 +49,7 @@ export default function BankerDashboardPage() {
     // Here you would typically update the application's status in Firestore.
   };
 
-  const isLoading = userLoading || applicationsLoading;
+  const isLoading = userLoading || applicationsLoading || productsLoading;
 
   if (isLoading) {
     return <div className="container mx-auto p-8 text-center">Loading Banker Dashboard...</div>;
@@ -74,9 +74,14 @@ export default function BankerDashboardPage() {
 
   return (
     <div className="container mx-auto p-4 md:p-8 space-y-8 bg-background">
-      <div className="p-6 rounded-lg bg-secondary text-secondary-foreground">
-        <h1 className="text-3xl font-bold">Welcome, {userData?.name ?? "Banker"}!</h1>
-        <p className="text-muted-foreground mt-1">Here is an overview of business loan applications.</p>
+      <div className="flex justify-between items-center p-6 rounded-lg bg-secondary text-secondary-foreground">
+         <div>
+            <h1 className="text-3xl font-bold">Welcome, {userData?.name ?? "Banker"}!</h1>
+            <p className="text-muted-foreground mt-1">Here is an overview of business loan applications.</p>
+        </div>
+        <Button asChild>
+            <Link href="/banker/dashboard/post-loan"><Plus className="mr-2 h-4 w-4" /> Post New Loan Product</Link>
+        </Button>
       </div>
 
       <section>
@@ -169,7 +174,7 @@ export default function BankerDashboardPage() {
           </Card>
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Application Volume</CardTitle>
@@ -186,8 +191,34 @@ export default function BankerDashboardPage() {
                   </ResponsiveContainer>
                 </CardContent>
             </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Your Loan Products</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {loanProducts.length === 0 ? (
+                    <p className="text-center text-muted-foreground">You have not posted any loan products yet.</p>
+                  ) : (
+                    <ul className="space-y-4">
+                      {loanProducts.map(product => (
+                        <li key={product.id} className="flex items-start gap-4">
+                          <Landmark className="w-5 h-5 text-primary mt-1" />
+                          <div>
+                            <p className="font-semibold">{product.title}</p>
+                            <p className="text-sm text-muted-foreground">{product.interestRate}</p>
+                          </div>
+                          <Badge variant={product.status === 'Active' ? 'default' : 'secondary'} className="ml-auto">{product.status}</Badge>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </CardContent>
+            </Card>
         </div>
       </div>
     </div>
   );
 }
+
+    
