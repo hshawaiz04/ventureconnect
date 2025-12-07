@@ -84,7 +84,7 @@ export default function HomePage() {
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {features.map(feature => (
                         <div key={feature.role} className="text-center p-6 rounded-lg border border-transparent hover:border-primary hover:bg-secondary transition-all">
-                           {feature.icon}
+                           <div className="flex justify-center">{feature.icon}</div>
                            <p className="font-semibold text-muted-foreground mt-4">{feature.role}</p>
                            <h3 className="text-xl font-bold font-headline mt-1 mb-2">{feature.title}</h3>
                            <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
