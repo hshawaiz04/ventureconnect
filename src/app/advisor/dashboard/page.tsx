@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -13,53 +13,53 @@ import { useUser } from "@/firebase/auth/use-user";
 import useDeals from "@/lib/useDeals"; // Re-using deals as businesses seeking advice
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const mockSessions = [
   { id: 1, businessName: "EcoCharge Solutions", type: "Video Call", status: "Completed", date: "2 days ago" },
   { id: 2, businessName: "ByteSchool EdTech", type: "Q&A", status: "Pending", date: "Tomorrow" },
 ];
 
-const mockQueries = [
-  { id: 1, title: "How do I calculate my startup's valuation for a seed round?", author: "Ankit S.", status: "Open" },
-  { id: 2, title: "What are the best marketing channels for a D2C brand with a small budget?", author: "Priya L.", status: "Open" },
-  { id: 3, title: "Best way to structure an ESOP pool for early employees?", author: "Rohan M.", status: "Answered" },
-];
-
-
 export default function AdvisorDashboardPage() {
   const { user: authUser, userData, loading: userLoading } = useUser();
   const router = useRouter();
   const { toast } = useToast();
   
-  // Re-using useDeals hook to get businesses that might need advice.
   const { deals: businesses, loading: businessesLoading } = useDeals();
+  const [queries, setQueries] = useState<any[]>([]);
+  const [queriesLoading, setQueriesLoading] = useState(true);
 
   useEffect(() => {
     if (!userLoading && !authUser) {
       router.push("/sign-in");
     }
-    // Redirect if user is not an advisor
     if (!userLoading && authUser && userData?.role !== "advisor") {
       router.push("/");
     }
   }, [authUser, userData, userLoading, router]);
+
+  useEffect(() => {
+    const q = query(collection(db, "queries"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setQueries(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setQueriesLoading(false);
+    }, (error) => {
+      console.error("Error fetching queries: ", error);
+      setQueriesLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleConnect = (businessName: string) => {
       toast({
           title: "Connection Request Sent",
           description: `A notification has been sent to ${businessName}.`
       });
-      // In a real app, this would trigger a Firestore write.
   }
 
-  const handlePostSolution = (queryId: number) => {
-      toast({
-          title: "Action Required",
-          description: `This would open a page to post a solution for query ${queryId}.`
-      });
-  }
-
-  const isLoading = userLoading || businessesLoading;
+  const isLoading = userLoading || businessesLoading || queriesLoading;
 
   if (isLoading) {
     return <div className="container mx-auto p-8 text-center">Loading Advisor Dashboard...</div>;
@@ -190,17 +190,19 @@ export default function AdvisorDashboardPage() {
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                    {mockQueries.map((query) => (
+                    {queries.map((query) => (
                         <TableRow key={query.id}>
                             <TableCell className="font-medium">{query.title}</TableCell>
-                            <TableCell>{query.author}</TableCell>
+                            <TableCell>{query.authorName}</TableCell>
                             <TableCell>
                                 <Badge variant={query.status === 'Open' ? 'destructive' : 'default'}>{query.status}</Badge>
                             </TableCell>
                             <TableCell className="text-right">
-                                <Button variant="outline" size="sm" onClick={() => handlePostSolution(query.id)}>
-                                    <HelpCircle className="w-4 h-4 mr-2" />
-                                    {query.status === 'Open' ? 'Post Solution' : 'View Solution'}
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href={`/advisor/dashboard/queries/${query.id}`}>
+                                      <HelpCircle className="w-4 h-4 mr-2" />
+                                      {query.status === 'Open' ? 'Post Solution' : 'View Solution'}
+                                    </Link>
                                 </Button>
                             </TableCell>
                         </TableRow>
