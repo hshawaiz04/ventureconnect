@@ -29,12 +29,14 @@ export default function useLoanProducts() {
 
     const q = query(
         collection(db, "loanProducts"), 
-        where("bankerUid", "==", user.uid),
-        orderBy("createdAt", "desc")
+        where("bankerUid", "==", user.uid)
     );
 
     const unsub = onSnapshot(q, (snapshot) => {
-      setLoanProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LoanProduct)));
+      const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LoanProduct));
+      // Sort on the client side
+      products.sort((a, b) => (b.createdAt?.toMillis() ?? 0) - (a.createdAt?.toMillis() ?? 0));
+      setLoanProducts(products);
       setLoading(false);
     }, (error) => {
       console.error("Error fetching loan products: ", error);
