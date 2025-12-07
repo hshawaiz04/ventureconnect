@@ -1,6 +1,9 @@
 
 'use client';
 
+import { useEffect, useState } from "react";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "@/firebase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -19,6 +22,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const adviceTypes = [
     { icon: <GraduationCap className="w-8 h-8 mb-4 text-primary" />, title: "Fundraising Strategy", description: "Learn how to prepare for investor meetings, structure your pitch, and negotiate terms." },
@@ -51,15 +55,6 @@ const howItWorksSteps = [
     { step: 3, title: "Get Actionable Guidance", description: "Receive step-by-step advice, document reviews, or strategic recommendations." },
 ];
 
-const popularArticles = [
-    "How to Build a Pitch Deck Investors Say Yes To",
-    "Top Mistakes Entrepreneurs Make When Seeking Funding",
-    "How to Validate Your Startup Idea Before Launching",
-    "Understanding Startup Valuation in Simple Terms",
-    "How to Scale Your Business Without Burning Cash",
-    "Legal Essentials Every Small Business Must Know",
-];
-
 const tools = [
     { icon: <File className="w-6 h-6 mr-4 text-primary" />, title: "Pitch Deck Checklist", description: "A downloadable list of essential slides." },
     { icon: <LayoutTemplate className="w-6 h-6 mr-4 text-primary" />, title: "Market Research Templates", description: "Use predefined templates to analyze your market." },
@@ -84,6 +79,26 @@ const faqs = [
 
 export default function AdvicePage() {
     const heroImage = PlaceHolderImages.find(img => img.id === 'advice-hero');
+    const [articles, setArticles] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchArticles = async () => {
+            try {
+                const articlesCollection = collection(db, 'articles');
+                const q = query(articlesCollection, orderBy('createdAt', 'desc'));
+                const querySnapshot = await getDocs(q);
+                const articlesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setArticles(articlesData);
+            } catch (error) {
+                console.error("Error fetching articles: ", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchArticles();
+    }, []);
 
     const ComingSoonDialog = ({ children }: { children: React.ReactNode }) => (
         <AlertDialog>
@@ -221,16 +236,28 @@ export default function AdvicePage() {
                 <div className="container mx-auto px-4 md:px-6">
                     <h2 className="text-3xl md:text-4xl font-bold text-center font-headline mb-12">Knowledge Hub</h2>
                     <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {popularArticles.map(article => (
-                            <Card key={article} className="hover:bg-secondary transition-colors">
+                        {loading ? (
+                            <>
+                                <Skeleton className="h-24 w-full" />
+                                <Skeleton className="h-24 w-full" />
+                                <Skeleton className="h-24 w-full" />
+                                <Skeleton className="h-24 w-full" />
+                            </>
+                        ) : articles.length === 0 ? (
+                            <p className="text-center text-muted-foreground sm:col-span-2">No articles have been published yet. Check back soon!</p>
+                        ) : (
+                            articles.map(article => (
+                            <Card key={article.id} className="hover:bg-secondary transition-colors">
                                 <CardContent className="pt-6">
                                     <Link href="#" className="font-semibold hover:underline flex items-center gap-2">
                                         <BookOpen className="w-4 h-4 text-primary"/>
-                                        {article}
+                                        {article.title}
                                     </Link>
+                                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{article.summary}</p>
+                                    <p className="text-xs text-muted-foreground mt-2">By {article.authorName}</p>
                                 </CardContent>
                             </Card>
-                        ))}
+                        )))}
                     </div>
                 </div>
             </section>

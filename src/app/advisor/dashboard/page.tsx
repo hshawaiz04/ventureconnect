@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect } from "react";
@@ -7,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Check, MessageSquare, Video, FileText } from "lucide-react";
+import { Check, MessageSquare, Video, FileText, Plus } from "lucide-react";
 import { useUser } from "@/firebase/auth/use-user";
 import useDeals from "@/lib/useDeals"; // Re-using deals as businesses seeking advice
 import Link from "next/link";
@@ -71,9 +72,14 @@ export default function AdvisorDashboardPage() {
 
   return (
     <div className="container mx-auto p-4 md:p-8 space-y-8 bg-background">
-      <div className="p-6 rounded-lg bg-secondary text-secondary-foreground">
-        <h1 className="text-3xl font-bold">Welcome, {userData?.name ?? "Advisor"}!</h1>
-        <p className="text-muted-foreground mt-1">Guide the next generation of successful startups.</p>
+      <div className="flex justify-between items-center p-6 rounded-lg bg-secondary text-secondary-foreground">
+        <div>
+            <h1 className="text-3xl font-bold">Welcome, {userData?.name ?? "Advisor"}!</h1>
+            <p className="text-muted-foreground mt-1">Guide the next generation of successful startups.</p>
+        </div>
+        <Button asChild>
+            <Link href="/advisor/dashboard/post"><Plus className="mr-2 h-4 w-4" /> Post New Article</Link>
+        </Button>
       </div>
 
        <section>

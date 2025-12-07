@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "user": {
@@ -108,6 +109,38 @@
       },
       "required": ["businessId", "title", "description", "status", "createdAt"]
     },
+    "article": {
+      "title": "Article",
+      "description": "An informational article written by a business advisor.",
+      "type": "object",
+      "properties": {
+        "authorUid": {
+          "type": "string",
+          "description": "The UID of the user who wrote the article."
+        },
+        "authorName": {
+          "type": "string",
+          "description": "The name of the author."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the article."
+        },
+        "summary": {
+          "type": "string",
+          "description": "A short summary of the article."
+        },
+        "content": {
+          "type": "string",
+          "description": "The full content of the article, potentially in Markdown format."
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp of when the article was created."
+        }
+      },
+      "required": ["authorUid", "authorName", "title", "summary", "content", "createdAt"]
+    },
     "view": {
       "title": "View/Activity",
       "description": "Represents an interaction from an investor on a business profile.",
@@ -209,6 +242,10 @@
     "/proposals/{proposalId}": {
       "schema": { "$ref": "#/entities/proposal" },
       "description": "Stores proposals linked to businesses."
+    },
+    "/articles/{articleId}": {
+      "schema": { "$ref": "#/entities/article" },
+      "description": "Stores articles written by business advisors for the Knowledge Hub."
     },
     "/views/{viewId}": {
       "schema": { "$ref": "#/entities/view" },
