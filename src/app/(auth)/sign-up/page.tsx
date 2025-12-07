@@ -1,18 +1,28 @@
-// src/app/(auth)/sign-up/page.tsx
-import React, { Suspense } from "react";
-import SignUpClient from "./SignUpClient"; // relative path to the client component
 
-export const metadata = {
-  title: "Sign up",
-};
+"use client";
+
+import Link from "next/link"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import SignUpClient from "./SignUpClient";
 
 export default function SignUpPage() {
   return (
-    <main className="container mx-auto p-6">
-      {/* Suspense is required so Next can SSR the page while client component hydrates */}
-      <Suspense fallback={<div>Loading sign-up…</div>}>
+    <Card className="mx-auto max-w-sm w-full">
+      <CardHeader>
+        <CardTitle className="text-xl">Sign Up</CardTitle>
+        <CardDescription>
+          Enter your information to create an account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         <SignUpClient />
-      </Suspense>
-    </main>
-  );
+        <div className="mt-4 text-center text-sm">
+          Already have an account?{" "}
+          <Link href="/sign-in" className="underline">
+            Sign in
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  )
 }

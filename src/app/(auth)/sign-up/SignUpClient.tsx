@@ -1,83 +1,177 @@
-// src/app/(auth)/sign-up/SignUpClient.tsx
+
 "use client";
 
-import React, { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/firebase";
 
-/**
- * Client component for the sign-up form. Keeps all client-only hooks here.
- * Put any event handlers, useSearchParams, useEffect using window, etc. here.
- */
+const formSchema = z.object({
+    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z.string().email(),
+    password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+    role: z.enum(["business owner", "investor", "banker", "advisor"], {
+        required_error: "You need to select a role.",
+    }),
+});
 
 export default function SignUpClient() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const invitedCode = searchParams.get("invite") ?? "";
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const { toast } = useToast();
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-    try {
-      // TODO: call your firebase signup wrapper here
-      // await authSignUp({ email, password, invitedCode });
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+            role: "business owner",
+        },
+    });
 
-      // For now simulate
-      await new Promise((r) => setTimeout(r, 600));
-      router.push("/dashboard");
-    } catch (err: any) {
-      setError(err?.message ?? "Signup failed");
-    } finally {
-      setLoading(false);
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        setLoading(true);
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+            const user = userCredential.user;
+
+            // Create user document in Firestore
+            await setDoc(doc(db, "users", user.uid), {
+                name: values.name,
+                email: values.email,
+                role: values.role,
+                createdAt: Date.now(),
+            });
+
+            toast({ title: "Account created successfully!" });
+
+            // Redirect based on role
+            switch (values.role) {
+                case "business owner":
+                    router.push('/dashboard');
+                    break;
+                case "investor":
+                    router.push('/investor/dashboard');
+                    break;
+                case "banker":
+                    router.push('/banker/dashboard');
+                    break;
+                case "advisor":
+                    router.push('/advisor/dashboard');
+                    break;
+                default:
+                    router.push('/dashboard'); // Fallback
+            }
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: (error as Error).message,
+            });
+        } finally {
+            setLoading(false);
+        }
     }
-  }
 
-  return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Create an account</h2>
-      {invitedCode && (
-        <p className="mb-4 text-sm text-muted-foreground">
-          You were invited — code: <strong>{invitedCode}</strong>
-        </p>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Email</label>
-          <input
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full rounded-md border p-2"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium">Password</label>
-          <input
-            name="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full rounded-md border p-2"
-          />
-        </div>
-
-        {error && <p className="text-sm text-destructive">{error}</p>}
-
-        <div>
-          <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? "Creating..." : "Create account"}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Your Name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                                <Input placeholder="m@example.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                                <Input type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                        <FormItem className="space-y-3">
+                            <FormLabel>I am a...</FormLabel>
+                            <FormControl>
+                                <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="grid grid-cols-2 gap-4"
+                                >
+                                    <FormItem className="flex items-center space-x-2 space-y-0">
+                                        <FormControl>
+                                            <RadioGroupItem value="business owner" />
+                                        </FormControl>
+                                        <FormLabel className="font-normal">Business Owner</FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-2 space-y-0">
+                                        <FormControl>
+                                            <RadioGroupItem value="investor" />
+                                        </FormControl>
+                                        <FormLabel className="font-normal">Investor</FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-2 space-y-0">
+                                        <FormControl>
+                                            <RadioGroupItem value="banker" />
+                                        </FormControl>
+                                        <FormLabel className="font-normal">Banker</FormLabel>
+                                    </FormItem>
+                                    <FormItem className="flex items-center space-x-2 space-y-0">
+                                        <FormControl>
+                                            <RadioGroupItem value="advisor" />
+                                        </FormControl>
+                                        <FormLabel className="font-normal">Advisor</FormLabel>
+                                    </FormItem>
+                                </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Creating Account..." : "Create an account"}
+                </Button>
+            </form>
+        </Form>
+    );
 }
