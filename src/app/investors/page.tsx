@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, MessageCircle, Search, Star, FileText, Bell, BarChart, ShieldCheck, Filter } from "lucide-react";
+import { Check, MessageCircle, Search, Star, FileText, Bell, BarChart, ShieldCheck, Filter, BarChart2, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -76,7 +76,7 @@ const howItWorksSteps = [
 ];
 
 const tools = [
-    { icon: <BarChart className="w-6 h-6 mr-4 text-primary" />, title: "Deal Screening Dashboard", description: "See financials, risk score, pitch deck summaries." },
+    { icon: <BarChart2 className="w-6 h-6 mr-4 text-primary" />, title: "Deal Screening Dashboard", description: "See financials, risk score, and pitch deck summaries." },
     { icon: <Filter className="w-6 h-6 mr-4 text-primary" />, title: "Deep Search Filters", description: "Filter by funding amount, industry, stage, revenue model, and more." },
     { icon: <FileText className="w-6 h-6 mr-4 text-primary" />, title: "Pitch Deck & Document Viewer", description: "Review documents without downloading." },
     { icon: <Star className="w-6 h-6 mr-4 text-primary" />, title: "Save Opportunities", description: "Bookmark deals and get update notifications." },
