@@ -21,6 +21,12 @@ service cloud.firestore {
       allow update, delete: if request.auth != null && resource.data.ownerUid == request.auth.uid;
     }
 
+    match /investorProposals/{investorProposalId} {
+      allow read: if true; // Allow public viewing of investor proposals
+      allow create: if request.auth != null && request.resource.data.investorUid == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.investorUid == request.auth.uid;
+    }
+
     match /saved/{uid}/bookmarks/{bookmarkId} {
       allow create: if request.auth != null && uid == request.auth.uid;
       allow read: if request.auth != null && uid == request.auth.uid;

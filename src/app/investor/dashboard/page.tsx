@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useUser } from "@/firebase/auth/use-user";
 import useDeals from "@/lib/useDeals";
 import useSaved from "@/lib/useSaved";
@@ -13,8 +13,9 @@ import useThreads from "@/lib/useMessages";
 import useInvestorProfile from "@/lib/useInvestor";
 import { saveOpportunity, isOpportunitySaved } from "@/lib/savedApi";
 import { useToast } from "@/hooks/use-toast";
-import { Bookmark } from "lucide-react";
+import { Bookmark, Plus, Badge } from "lucide-react";
 import SavedOpportunity from "@/components/SavedOpportunity";
+import useInvestorProposals from "@/lib/useInvestorProposals";
 
 
 export default function InvestorDashboardPage() {
@@ -27,6 +28,7 @@ export default function InvestorDashboardPage() {
   const { deals, loading: dealsLoading } = useDeals(profile?.preferences ?? {});
   const { saved, loading: savedLoading, refresh: refreshSaved } = useSaved();
   const { threads, loading: threadsLoading } = useThreads();
+  const { proposals: investorProposals, loading: investorProposalsLoading } = useInvestorProposals();
   const [savedStatus, setSavedStatus] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -66,7 +68,7 @@ export default function InvestorDashboardPage() {
     }
   };
 
-  const isLoading = userLoading || profileLoading || dealsLoading || savedLoading || threadsLoading;
+  const isLoading = userLoading || profileLoading || dealsLoading || savedLoading || threadsLoading || investorProposalsLoading;
 
   if (isLoading) {
     return <div className="container mx-auto p-8 text-center">Loading...</div>;
@@ -152,6 +154,31 @@ export default function InvestorDashboardPage() {
               )}
             </CardContent>
           </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>My Investment Proposals</CardTitle>
+              <Button asChild size="sm">
+                <Link href="/investor/dashboard/create-proposal"><Plus className="mr-2 h-4 w-4" /> Create New</Link>
+              </Button>
+            </CardHeader>
+            <CardContent>
+              {investorProposals.length === 0 ? (
+                <p className="text-center py-8 text-muted-foreground">You have not created any investment proposals yet.</p>
+              ) : (
+                 investorProposals.map((p: any) => (
+                      <div key={p.id} className="p-3 rounded-lg bg-secondary mb-2 flex justify-between items-center">
+                        <div>
+                            <h3 className="font-semibold">{p.title}</h3>
+                            <p className="text-sm text-muted-foreground line-clamp-1">{p.thesis}</p>
+                        </div>
+                        <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full">{p.status}</span>
+                      </div>
+                    ))
+              )}
+            </CardContent>
+          </Card>
+
 
           <Card>
             <CardHeader>
