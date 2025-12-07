@@ -109,6 +109,48 @@
       },
       "required": ["businessId", "title", "description", "status", "createdAt"]
     },
+    "investorProposal": {
+      "title": "Investor Proposal",
+      "description": "A proposal created by an investor detailing their investment interests.",
+      "type": "object",
+      "properties": {
+        "investorUid": {
+          "type": "string",
+          "description": "The UID of the user who created this proposal."
+        },
+        "title": {
+          "type": "string",
+          "description": "A headline for the proposal, e.g., 'Seed Funding for SaaS Startups'."
+        },
+        "industries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "A list of industries the investor is interested in."
+        },
+        "minCheckSize": {
+          "type": "number",
+          "description": "The minimum investment amount for a single deal."
+        },
+        "maxCheckSize": {
+          "type": "number",
+          "description": "The maximum investment amount for a single deal."
+        },
+        "thesis": {
+          "type": "string",
+          "description": "A detailed description of the investor's thesis or what they look for."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the proposal.",
+          "enum": ["Active", "Paused", "Archived"]
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp of when the proposal was created."
+        }
+      },
+      "required": ["investorUid", "title", "industries", "thesis", "status", "createdAt"]
+    },
     "article": {
       "title": "Article",
       "description": "An informational article written by a business advisor.",
@@ -242,6 +284,10 @@
     "/proposals/{proposalId}": {
       "schema": { "$ref": "#/entities/proposal" },
       "description": "Stores proposals linked to businesses."
+    },
+    "/investorProposals/{investorProposalId}": {
+      "schema": { "$ref": "#/entities/investorProposal" },
+      "description": "Stores proposals created by investors."
     },
     "/articles/{articleId}": {
       "schema": { "$ref": "#/entities/article" },
