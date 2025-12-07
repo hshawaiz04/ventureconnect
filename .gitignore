@@ -1,6 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Node / package managers
 /node_modules
 /.pnp
 .pnp.*
@@ -10,36 +8,49 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
+# Testing
 /coverage
 
-# next.js
+# Next.js
 /.next/
 /out/
 
-# production
+# Production build
 /build
 
-# misc
+# OS / misc
 .DS_Store
 *.pem
 
-# debug
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
+# Generated assets
 .genkit/*
-.env*
 
-# firebase
+# Environment files — ignore real envs but allow .env.example
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+!/.env.example
+
+# Firebase debug logs
 firebase-debug.log
 firestore-debug.log
+
+# Optional editor / IDE files (uncomment if you want to ignore)
+# .vscode/
+# .idea/
+node_modules
