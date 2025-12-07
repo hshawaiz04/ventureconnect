@@ -1,4 +1,5 @@
 
+'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +9,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const adviceTypes = [
     { icon: <GraduationCap className="w-8 h-8 mb-4 text-primary" />, title: "Fundraising Strategy", description: "Learn how to prepare for investor meetings, structure your pitch, and negotiate terms." },
@@ -74,6 +84,26 @@ const faqs = [
 
 export default function AdvicePage() {
     const heroImage = PlaceHolderImages.find(img => img.id === 'advice-hero');
+
+    const ComingSoonDialog = ({ children }: { children: React.ReactNode }) => (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                {children}
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Coming Soon!</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        The site hasn't gone commercial yet. This feature is currently unavailable. Please check back later.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogAction>OK</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
+
     return (
         <div className="flex flex-col min-h-screen">
             <section className="relative w-full h-[50vh] flex items-center justify-center">
@@ -94,9 +124,9 @@ export default function AdvicePage() {
                        Connect with verified business advisors, mentors, and financial experts. Get insights across fundraising, growth strategy, market analysis, branding, legal compliance, and more.
                     </p>
                     <div className="flex justify-center gap-4">
-                        <Button size="lg" asChild>
-                            <Link href="#">Talk to an Advisor</Link>
-                        </Button>
+                        <ComingSoonDialog>
+                            <Button size="lg">Talk to an Advisor</Button>
+                        </ComingSoonDialog>
                         <Button size="lg" variant="outline" asChild>
                             <Link href="#">Explore Advice Articles</Link>
                         </Button>
@@ -159,9 +189,9 @@ export default function AdvicePage() {
                                     <p className="text-sm text-muted-foreground">{advisor.experience}</p>
                                 </CardContent>
                                 <div className="p-6 pt-0 w-full mt-auto">
-                                    <Button className="w-full" asChild>
-                                        <Link href={advisor.ctaLink}>{advisor.cta}</Link>
-                                    </Button>
+                                    <ComingSoonDialog>
+                                        <Button className="w-full">{advisor.cta}</Button>
+                                    </ComingSoonDialog>
                                 </div>
                             </Card>
                         ))}
@@ -259,17 +289,15 @@ export default function AdvicePage() {
                     <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">Empower Your Business with Expert Insights.</h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">Get personalized advice today.</p>
                     <div className="flex justify-center gap-4">
-                        <Button size="lg" asChild>
-                            <Link href="#">Talk to an Advisor</Link>
-                        </Button>
-                        <Button size="lg" variant="secondary" asChild>
-                            <Link href="#">Explore All Experts</Link>
-                        </Button>
+                        <ComingSoonDialog>
+                            <Button size="lg">Talk to an Advisor</Button>
+                        </ComingSoonDialog>
+                        <ComingSoonDialog>
+                             <Button size="lg" variant="secondary">Explore All Experts</Button>
+                        </ComingSoonDialog>
                     </div>
                 </div>
             </section>
         </div>
     );
 }
-
-    

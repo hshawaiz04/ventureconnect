@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -6,6 +8,16 @@ import { CheckCircle, FileText, Check, Landmark, Banknote, Briefcase, Factory, F
 import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const loanTypes = [
     { icon: <PiggyBank className="w-8 h-8 mb-4 text-primary" />, title: "Startup Loan", description: "For early-stage businesses needing initial working capital." },
@@ -68,6 +80,26 @@ const faqs = [
 
 export default function LoansPage() {
     const heroImage = PlaceHolderImages.find(img => img.id === 'loans-hero');
+    
+    const ComingSoonDialog = ({ children }: { children: React.ReactNode }) => (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                {children}
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Coming Soon!</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        The site hasn't gone commercial yet. This feature is currently unavailable. Please check back later.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogAction>OK</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
+
     return (
         <div className="flex flex-col min-h-screen">
             <section className="relative w-full h-[50vh] flex items-center justify-center">
@@ -91,9 +123,9 @@ export default function LoansPage() {
                         <Button size="lg" asChild>
                             <Link href="/proposals?category=loan">Check Loan Options</Link>
                         </Button>
-                        <Button size="lg" variant="outline" asChild>
-                            <Link href="/post/loan">Apply for a Business Loan</Link>
-                        </Button>
+                        <ComingSoonDialog>
+                            <Button size="lg" variant="outline">Apply for a Business Loan</Button>
+                        </ComingSoonDialog>
                     </div>
                 </div>
             </section>
@@ -251,12 +283,12 @@ export default function LoansPage() {
                     <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">Empower Your Business with the Right Loan.</h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">Apply today and access multiple offers instantly.</p>
                     <div className="flex justify-center gap-4">
-                        <Button size="lg" asChild>
-                            <Link href="/post/loan">Apply Now</Link>
-                        </Button>
-                        <Button size="lg" variant="outline" asChild>
-                            <Link href="/advice">Talk to a Loan Advisor</Link>
-                        </Button>
+                        <ComingSoonDialog>
+                           <Button size="lg">Apply Now</Button>
+                        </ComingSoonDialog>
+                        <ComingSoonDialog>
+                           <Button size="lg" variant="outline">Talk to a Loan Advisor</Button>
+                        </ComingSoonDialog>
                     </div>
                 </div>
             </section>
