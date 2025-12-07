@@ -224,6 +224,33 @@
       },
       "required": ["authorUid", "authorName", "title", "summary", "content", "createdAt"]
     },
+    "query": {
+      "title": "Query",
+      "description": "A question posted by a user to the community.",
+      "type": "object",
+      "properties": {
+        "authorUid": { "type": "string", "description": "The UID of the user who posted the query." },
+        "authorName": { "type": "string", "description": "The name of the user who posted the query." },
+        "title": { "type": "string", "description": "The title of the query." },
+        "description": { "type": "string", "description": "The detailed description of the query." },
+        "status": { "type": "string", "description": "The status of the query.", "enum": ["Open", "Answered", "Closed"] },
+        "createdAt": { "type": "number", "description": "Timestamp of when the query was created." }
+      },
+      "required": ["authorUid", "authorName", "title", "description", "status", "createdAt"]
+    },
+    "solution": {
+      "title": "Solution",
+      "description": "An answer or solution posted by an advisor in response to a query.",
+      "type": "object",
+      "properties": {
+        "queryId": { "type": "string", "description": "The ID of the query this solution is for." },
+        "advisorUid": { "type": "string", "description": "The UID of the advisor who posted the solution." },
+        "advisorName": { "type": "string", "description": "The name of the advisor." },
+        "content": { "type": "string", "description": "The content of the solution." },
+        "createdAt": { "type": "number", "description": "Timestamp of when the solution was posted." }
+      },
+      "required": ["queryId", "advisorUid", "advisorName", "content", "createdAt"]
+    },
     "view": {
       "title": "View/Activity",
       "description": "Represents an interaction from an investor on a business profile.",
@@ -337,6 +364,14 @@
     "/articles/{articleId}": {
       "schema": { "$ref": "#/entities/article" },
       "description": "Stores articles written by business advisors for the Knowledge Hub."
+    },
+    "/queries/{queryId}": {
+      "schema": { "$ref": "#/entities/query" },
+      "description": "Stores questions posted by users for advisors."
+    },
+    "/queries/{queryId}/solutions/{solutionId}": {
+      "schema": { "$ref": "#/entities/solution" },
+      "description": "Stores solutions posted by advisors to a query."
     },
     "/views/{viewId}": {
       "schema": { "$ref": "#/entities/view" },

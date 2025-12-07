@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Check, MessageSquare, Video, FileText, Plus } from "lucide-react";
+import { Check, MessageSquare, Video, FileText, Plus, HelpCircle } from "lucide-react";
 import { useUser } from "@/firebase/auth/use-user";
 import useDeals from "@/lib/useDeals"; // Re-using deals as businesses seeking advice
 import Link from "next/link";
@@ -17,6 +17,12 @@ import { useToast } from "@/hooks/use-toast";
 const mockSessions = [
   { id: 1, businessName: "EcoCharge Solutions", type: "Video Call", status: "Completed", date: "2 days ago" },
   { id: 2, businessName: "ByteSchool EdTech", type: "Q&A", status: "Pending", date: "Tomorrow" },
+];
+
+const mockQueries = [
+  { id: 1, title: "How do I calculate my startup's valuation for a seed round?", author: "Ankit S.", status: "Open" },
+  { id: 2, title: "What are the best marketing channels for a D2C brand with a small budget?", author: "Priya L.", status: "Open" },
+  { id: 3, title: "Best way to structure an ESOP pool for early employees?", author: "Rohan M.", status: "Answered" },
 ];
 
 
@@ -44,6 +50,13 @@ export default function AdvisorDashboardPage() {
           description: `A notification has been sent to ${businessName}.`
       });
       // In a real app, this would trigger a Firestore write.
+  }
+
+  const handlePostSolution = (queryId: number) => {
+      toast({
+          title: "Action Required",
+          description: `This would open a page to post a solution for query ${queryId}.`
+      });
   }
 
   const isLoading = userLoading || businessesLoading;
@@ -115,7 +128,7 @@ export default function AdvisorDashboardPage() {
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-8">
             <Card>
                 <CardHeader>
                 <CardTitle>Businesses Seeking Guidance</CardTitle>
@@ -160,6 +173,43 @@ export default function AdvisorDashboardPage() {
                 </Table>
                 </CardContent>
             </Card>
+            
+            <Card>
+                <CardHeader>
+                <CardTitle>Community Questions</CardTitle>
+                <CardDescription>Help entrepreneurs by answering their questions.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                <Table>
+                    <TableHeader>
+                    <TableRow>
+                        <TableHead>Query</TableHead>
+                        <TableHead>Author</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                    </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                    {mockQueries.map((query) => (
+                        <TableRow key={query.id}>
+                            <TableCell className="font-medium">{query.title}</TableCell>
+                            <TableCell>{query.author}</TableCell>
+                            <TableCell>
+                                <Badge variant={query.status === 'Open' ? 'destructive' : 'default'}>{query.status}</Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                                <Button variant="outline" size="sm" onClick={() => handlePostSolution(query.id)}>
+                                    <HelpCircle className="w-4 h-4 mr-2" />
+                                    {query.status === 'Open' ? 'Post Solution' : 'View Solution'}
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+                </CardContent>
+            </Card>
+
         </div>
         <div className="space-y-8">
             <Card>
