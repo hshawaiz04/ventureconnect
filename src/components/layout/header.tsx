@@ -46,6 +46,19 @@ export function Header() {
       .join("");
   };
 
+  const dashboardLink = () => {
+    switch (userData?.role) {
+      case "business owner":
+        return "/dashboard";
+      case "investor":
+        return "/investor/dashboard";
+      case "banker":
+        return "/banker/dashboard";
+      default:
+        return null;
+    }
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="w-full grid grid-cols-[auto_1fr_auto] items-center h-16 px-4 sm:px-6 lg:px-8">
@@ -55,12 +68,12 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 whitespace-nowrap justify-self-center">
-          {userData?.role === "business owner" && (
+          {dashboardLink() && (
             <Link
-              href="/dashboard"
+              href={dashboardLink()!}
               className={cn(
                 "transition-colors hover:text-primary text-sm font-medium",
-                pathname === "/dashboard"
+                pathname === dashboardLink()
                   ? "text-primary"
                   : "text-muted-foreground"
               )}
@@ -105,9 +118,9 @@ export function Header() {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  {userData?.role === 'business owner' && (
+                  {dashboardLink() && (
                      <DropdownMenuItem asChild>
-                        <Link href="/dashboard">Dashboard</Link>
+                        <Link href={dashboardLink()!}>Dashboard</Link>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
@@ -141,8 +154,8 @@ export function Header() {
                 </Link>
 
                 <div className="flex flex-col space-y-3">
-                  {userData?.role === "business owner" && (
-                     <Link href="/dashboard" className={cn("transition-colors hover:text-primary text-lg", pathname === "/dashboard" ? "text-primary font-semibold" : "text-muted-foreground")}>
+                  {dashboardLink() && (
+                     <Link href={dashboardLink()!} className={cn("transition-colors hover:text-primary text-lg", pathname === dashboardLink() ? "text-primary font-semibold" : "text-muted-foreground")}>
                       Dashboard
                     </Link>
                   )}
