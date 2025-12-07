@@ -121,14 +121,14 @@ export default function AdvicePage() {
                 <div className="relative container px-4 md:px-6 text-center text-primary-foreground z-10">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline mb-4">Expert Guidance to Grow, Scale, and Fund Your Business.</h1>
                     <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
-                       Connect with verified business advisors, mentors, and financial experts. Get insights across fundraising, growth strategy, market analysis, branding, legal compliance, and more.
+                       From funding strategies to market insights — find clear, practical advice tailored for growing ventures.
                     </p>
                     <div className="flex justify-center gap-4">
                         <ComingSoonDialog>
                             <Button size="lg">Talk to an Advisor</Button>
                         </ComingSoonDialog>
                         <Button size="lg" variant="outline" asChild>
-                            <Link href="#">Explore Advice Articles</Link>
+                            <Link href="#knowledge-hub">Explore Advice Articles</Link>
                         </Button>
                     </div>
                 </div>
@@ -217,7 +217,7 @@ export default function AdvicePage() {
                 </div>
             </section>
             
-             <section className="py-16 md:py-24 bg-background">
+             <section id="knowledge-hub" className="py-16 md:py-24 bg-background scroll-mt-20">
                 <div className="container mx-auto px-4 md:px-6">
                     <h2 className="text-3xl md:text-4xl font-bold text-center font-headline mb-12">Knowledge Hub</h2>
                     <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
