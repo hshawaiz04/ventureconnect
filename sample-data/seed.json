@@ -1,3 +1,4 @@
+
 {
   "users": [
     {
@@ -71,6 +72,46 @@
       "createdAt": 1712350000000
     }
   ],
+  "queries": [
+    {
+      "id": "query1",
+      "authorUid": "owner123",
+      "authorName": "Shawaiz Haider",
+      "title": "How to calculate burn rate for a pre-revenue startup?",
+      "description": "We are a team of 3 and have just started building our MVP. We have some initial angel funding but no revenue yet. How do we accurately calculate our monthly burn rate and project our runway? What are the key expenses to include?",
+      "status": "Open",
+      "createdAt": 1717100000000
+    },
+    {
+      "id": "query2",
+      "authorUid": "anotherOwner",
+      "authorName": "Priya Singh",
+      "title": "Best marketing channels for a D2C brand with a small budget?",
+      "description": "I'm launching a direct-to-consumer brand for handmade leather goods. My initial marketing budget is very small (under ₹50,000). What are the most effective channels to focus on for initial customer acquisition? SEO, social media, influencers?",
+      "status": "Answered",
+      "createdAt": 1717200000000
+    },
+    {
+      "id": "query3",
+      "authorUid": "owner123",
+      "authorName": "Shawaiz Haider",
+      "title": "What's a realistic valuation for a seed-stage SaaS company?",
+      "description": "My SaaS startup has a working MVP, 10 beta users, and we are targeting the Indian SMB market. What are some common methods to arrive at a realistic pre-money valuation for our seed round? Any benchmarks would be helpful.",
+      "status": "Open",
+      "createdAt": 1717300000000
+    }
+  ],
+  "solutions": {
+    "query2": [
+      {
+        "id": "sol1",
+        "advisorUid": "advisor001",
+        "advisorName": "Ananya Mehta",
+        "content": "Hi Priya, great question. With a small budget, focus is key. I'd recommend starting with:\n\n1.  **Instagram & Facebook:** Build a community around your brand. Use high-quality visuals of your products. Run small, targeted ad campaigns (you can start with as little as ₹500/day).\n2.  **Micro-influencers:** Partner with smaller influencers in the fashion/lifestyle niche who have high engagement. They are often more affordable and authentic.\n3.  **Content Marketing:** Start a blog or create social media content around leather care, styling tips, etc. This helps with long-term SEO and builds trust.\n\nDon't spread yourself too thin. Pick one or two channels, do them well, and then expand as you grow. Good luck!",
+        "createdAt": 1717250000000
+      }
+    ]
+  },
   "views": [
     {
       "id": "view101",
