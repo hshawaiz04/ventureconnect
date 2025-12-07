@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link"
@@ -9,8 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -22,6 +26,7 @@ export default function SignInPage() {
   const { toast } = useToast();
   const router = useRouter();
   const auth = getAuth();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,16 +37,50 @@ export default function SignInPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, values.email, values.password);
-      toast({ title: "Successfully signed in!" });
-      router.push('/dashboard');
+      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
+
+      // Fetch user role from Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        toast({ title: "Successfully signed in!" });
+        
+        // Redirect based on role
+        switch (userData.role) {
+            case "business owner":
+              router.push('/dashboard');
+              break;
+            case "investor":
+              router.push('/investor/dashboard');
+              break;
+            case "banker":
+                router.push('/banker/dashboard');
+                break;
+            case "advisor":
+                router.push('/advisor/dashboard');
+                break;
+            default:
+              router.push('/dashboard'); // Fallback
+          }
+      } else {
+        // Handle case where user document doesn't exist but auth user does
+        toast({ title: "Successfully signed in! Profile not found, redirecting to home." });
+        router.push('/');
+      }
+      
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: (error as Error).message,
       });
+    } finally {
+        setLoading(false);
     }
   }
 
@@ -87,8 +126,8 @@ export default function SignInPage() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </Form>
