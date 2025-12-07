@@ -15,6 +15,8 @@ import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "@/firebase";
+import seedData from '@/sample-data/seed.json';
+
 
 const mockSessions = [
   { id: 1, businessName: "EcoCharge Solutions", type: "Video Call", status: "Completed", date: "2 days ago" },
@@ -40,16 +42,9 @@ export default function AdvisorDashboardPage() {
   }, [authUser, userData, userLoading, router]);
 
   useEffect(() => {
-    const q = query(collection(db, "queries"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setQueries(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      setQueriesLoading(false);
-    }, (error) => {
-      console.error("Error fetching queries: ", error);
-      setQueriesLoading(false);
-    });
-
-    return () => unsubscribe();
+    // Using mock data for now
+    setQueries(seedData.queries);
+    setQueriesLoading(false);
   }, []);
 
   const handleConnect = (businessName: string) => {
@@ -256,3 +251,5 @@ export default function AdvisorDashboardPage() {
     </div>
   );
 }
+
+    
