@@ -1,7 +1,7 @@
 // src/app/investor/dashboard/page.tsx
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -11,17 +11,36 @@ import useDeals from "@/lib/useDeals";
 import useSaved from "@/lib/useSaved";
 import useThreads from "@/lib/useMessages";
 import useInvestorProfile from "@/lib/useInvestor";
+import { saveOpportunity, isOpportunitySaved } from "@/lib/savedApi";
+import { useToast } from "@/hooks/use-toast";
+import { Bookmark } from "lucide-react";
+import SavedOpportunity from "@/components/SavedOpportunity";
 
 
 export default function InvestorDashboardPage() {
   const { user: authUser, userData, loading: userLoading } = useUser();
   const router = useRouter();
+  const { toast } = useToast();
 
   // Load hooks for data fetching
   const { profile, loading: profileLoading } = useInvestorProfile(authUser?.uid);
   const { deals, loading: dealsLoading } = useDeals(profile?.preferences ?? {});
-  const { saved, loading: savedLoading } = useSaved();
+  const { saved, loading: savedLoading, refresh: refreshSaved } = useSaved();
   const { threads, loading: threadsLoading } = useThreads();
+  const [savedStatus, setSavedStatus] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (!dealsLoading && deals.length > 0) {
+      const checkSavedStatus = async () => {
+        const statusMap: Record<string, boolean> = {};
+        for (const deal of deals) {
+          statusMap[deal.id] = await isOpportunitySaved(deal.id);
+        }
+        setSavedStatus(statusMap);
+      };
+      checkSavedStatus();
+    }
+  }, [deals, dealsLoading]);
 
   // Redirect non-authenticated users to sign in
   useEffect(() => {
@@ -29,6 +48,23 @@ export default function InvestorDashboardPage() {
       router.replace("/sign-in");
     }
   }, [authUser, userLoading, router]);
+
+  const handleSave = async (businessId: string) => {
+    try {
+      const result = await saveOpportunity(businessId);
+      if (result.action === 'saved') {
+        toast({ title: "Opportunity saved!", description: "You can find it in your 'Saved Opportunities' list." });
+        setSavedStatus(prev => ({ ...prev, [businessId]: true }));
+      } else if (result.action === 'unsaved') {
+         toast({ title: "Opportunity unsaved.", description: "It has been removed from your saved list." });
+         setSavedStatus(prev => ({ ...prev, [businessId]: false }));
+      }
+      refreshSaved(); // Refresh the saved list
+    } catch (error) {
+      console.error("Failed to save opportunity", error);
+      toast({ variant: "destructive", title: "Uh oh!", description: "Could not save the opportunity." });
+    }
+  };
 
   const isLoading = userLoading || profileLoading || dealsLoading || savedLoading || threadsLoading;
 
@@ -101,9 +137,15 @@ export default function InvestorDashboardPage() {
                     <p className="text-sm mt-2 line-clamp-2">{d.pitch}</p>
                      <div className="mt-3 flex items-center justify-between">
                         <span className="text-primary font-semibold">{new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 0 }).format(d.targetRaise ?? 0)} Sought</span>
-                        <Button variant="secondary" size="sm" asChild>
-                            <Link href={`/proposals?businessId=${d.id}`}>View Details</Link>
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button variant="secondary" size="sm" asChild>
+                              <Link href={`/proposals?businessId=${d.id}`}>View Details</Link>
+                          </Button>
+                          <Button variant="outline" size="sm" onClick={() => handleSave(d.id)}>
+                            <Bookmark className={`mr-2 h-4 w-4 ${savedStatus[d.id] ? 'fill-current' : ''}`} />
+                            {savedStatus[d.id] ? 'Unsave' : 'Save'}
+                          </Button>
+                        </div>
                     </div>
                   </div>
                 ))
@@ -120,16 +162,7 @@ export default function InvestorDashboardPage() {
                 <p className="text-center py-8 text-muted-foreground">You have no saved opportunities.</p>
               ) : (
                 saved.map((s: any) => (
-                  <div key={s.id} className="p-3 border-b last:border-b-0 flex justify-between items-center">
-                    <div>
-                        <p className="font-medium">{s.refId}</p>
-                        <p className="text-xs text-muted-foreground uppercase">{s.type}</p>
-                    </div>
-                    <Button variant="ghost" size="sm" asChild>
-                        {/* This would link to the specific saved item, e.g. /businesses/{s.refId} */}
-                        <Link href="#">View</Link>
-                    </Button>
-                  </div>
+                  <SavedOpportunity key={s.id} bookmark={s} />
                 ))
               )}
             </CardContent>
