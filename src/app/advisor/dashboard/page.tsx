@@ -15,13 +15,41 @@ import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "@/firebase";
-import seedData from '@/sample-data/seed.json';
-
 
 const mockSessions = [
   { id: 1, businessName: "EcoCharge Solutions", type: "Video Call", status: "Completed", date: "2 days ago" },
   { id: 2, businessName: "ByteSchool EdTech", type: "Q&A", status: "Pending", date: "Tomorrow" },
 ];
+
+const mockQueries = [
+    {
+      "id": "query1",
+      "authorUid": "owner123",
+      "authorName": "Shawaiz Haider",
+      "title": "How to calculate burn rate for a pre-revenue startup?",
+      "description": "We are a team of 3 and have just started building our MVP. We have some initial angel funding but no revenue yet. How do we accurately calculate our monthly burn rate and project our runway? What are the key expenses to include?",
+      "status": "Open",
+      "createdAt": 1717100000000
+    },
+    {
+      "id": "query2",
+      "authorUid": "anotherOwner",
+      "authorName": "Priya Singh",
+      "title": "Best marketing channels for a D2C brand with a small budget?",
+      "description": "I'm launching a direct-to-consumer brand for handmade leather goods. My initial marketing budget is very small (under ₹50,000). What are the most effective channels to focus on for initial customer acquisition? SEO, social media, influencers?",
+      "status": "Answered",
+      "createdAt": 1717200000000
+    },
+    {
+      "id": "query3",
+      "authorUid": "owner123",
+      "authorName": "Shawaiz Haider",
+      "title": "What's a realistic valuation for a seed-stage SaaS company?",
+      "description": "My SaaS startup has a working MVP, 10 beta users, and we are targeting the Indian SMB market. What are some common methods to arrive at a realistic pre-money valuation for our seed round? Any benchmarks would be helpful.",
+      "status": "Open",
+      "createdAt": 1717300000000
+    }
+  ];
 
 export default function AdvisorDashboardPage() {
   const { user: authUser, userData, loading: userLoading } = useUser();
@@ -42,8 +70,7 @@ export default function AdvisorDashboardPage() {
   }, [authUser, userData, userLoading, router]);
 
   useEffect(() => {
-    // Using mock data for now
-    setQueries(seedData.queries);
+    setQueries(mockQueries);
     setQueriesLoading(false);
   }, []);
 
@@ -251,5 +278,3 @@ export default function AdvisorDashboardPage() {
     </div>
   );
 }
-
-    
