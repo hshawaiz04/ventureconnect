@@ -54,6 +54,8 @@ export function Header() {
         return "/investor/dashboard";
       case "banker":
         return "/banker/dashboard";
+      case "advisor":
+        return "/advisor/dashboard";
       default:
         return null;
     }
