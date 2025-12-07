@@ -35,7 +35,6 @@ export async function createLoanProduct(payload: CreateLoanProductPayload) {
 
   addDoc(loanProductsCollection, loanProductData)
     .catch(async (e: any) => {
-        console.error("Error creating loan product: ", e);
         if (e.code === 'permission-denied') {
           const permissionError = new FirestorePermissionError({
             path: `loanProducts`,
@@ -43,10 +42,10 @@ export async function createLoanProduct(payload: CreateLoanProductPayload) {
             requestResourceData: loanProductData,
           });
           errorEmitter.emit('permission-error', permissionError);
+        } else {
+            console.error("Error creating loan product: ", e);
         }
         // Re-throw to allow the UI to handle it
         throw e;
     });
 }
-
-    
