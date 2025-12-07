@@ -1,8 +1,9 @@
+// src/app/dashboard/page.tsx
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -10,24 +11,24 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Check, Edit, Plus, Share2 } from "lucide-react";
-import { useUser } from '@/firebase/auth/use-user';
-import Link from 'next/link';
+import { useUser } from "@/firebase/auth/use-user";
+import Link from "next/link";
 import useMyBusiness from "@/lib/useMyBusiness";
-import { useToast } from '@/hooks/use-toast';
-import useProposalsForCurrentBusiness from "@/lib/useProposals.tsx";
+import { useToast } from "@/hooks/use-toast";
+import useProposalsForCurrentBusiness from "@/lib/useProposals";
 
 /* Chart Data */
 const viewsData = [
-  { name: 'Day 1', views: 4 }, { name: 'Day 2', views: 3 },
-  { name: 'Day 3', views: 5 }, { name: 'Day 4', views: 8 },
-  { name: 'Day 5', views: 6 }, { name: 'Day 6', views: 10 },
-  { name: 'Day 7', views: 12 },
+  { name: "Day 1", views: 4 }, { name: "Day 2", views: 3 },
+  { name: "Day 3", views: 5 }, { name: "Day 4", views: 8 },
+  { name: "Day 5", views: 6 }, { name: "Day 6", views: 10 },
+  { name: "Day 7", views: 12 },
 ];
 
 const engagementData = [
-  { name: 'Jan', score: 30 }, { name: 'Feb', score: 45 },
-  { name: 'Mar', score: 60 }, { name: 'Apr', score: 55 },
-  { name: 'May', score: 75 }, { name: 'Jun', score: 80 },
+  { name: "Jan", score: 30 }, { name: "Feb", score: 45 },
+  { name: "Mar", score: 60 }, { name: "Apr", score: 55 },
+  { name: "May", score: 75 }, { name: "Jun", score: 80 },
 ];
 
 const tasks = [
@@ -41,43 +42,36 @@ export default function DashboardPage() {
   const { user: authUser, userData, loading: userLoading } = useUser();
   const router = useRouter();
   const { business, loading: dataLoading, error: businessError } = useMyBusiness();
-  const { proposals, loading: proposalsLoading } = useProposalsForCurrentBusiness();
+  const { proposals = [], loading: proposalsLoading } = useProposalsForCurrentBusiness() ?? {};
   const { toast } = useToast();
   const [isInviteDialogOpen, setInviteDialogOpen] = useState(false);
 
   useEffect(() => {
     if (!userLoading && !authUser) {
-      router.push('/sign-in');
+      router.push("/sign-in");
     }
-    if (!userLoading && authUser && userData?.role !== 'business owner') {
-      router.push('/');
+    if (!userLoading && authUser && userData?.role !== "business owner") {
+      router.push("/");
     }
   }, [authUser, userData, userLoading, router]);
 
   const handleShareProfile = () => {
     if (!business) return;
-    // In a real app, you'd have a public profile page like /business/{business.id}
     const publicProfileUrl = `${window.location.origin}/proposals?businessId=${business.id}`;
     navigator.clipboard.writeText(publicProfileUrl)
-      .then(() => {
-        toast({ title: "Profile link copied to clipboard!" });
-      })
-      .catch(err => {
-        toast({ variant: "destructive", title: "Could not copy link", description: String(err) });
-      });
+      .then(() => toast({ title: "Profile link copied to clipboard!" }))
+      .catch((err) => toast({ variant: "destructive", title: "Could not copy link", description: String(err) }));
   };
 
   const handleInviteSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = (event.currentTarget.elements.namedItem("email") as HTMLInputElement).value;
     if (email) {
-      // In a real app, you would trigger a backend function to send an email invitation.
       console.log(`Inviting ${email} to the team.`);
       toast({ title: "Invitation Sent!", description: `An invitation has been sent to ${email}.` });
       setInviteDialogOpen(false);
     }
   };
-
 
   if (userLoading || dataLoading) {
     return <div className="container mx-auto p-4 md:p-8 text-center">Loading Dashboard...</div>;
@@ -99,17 +93,16 @@ export default function DashboardPage() {
     );
   }
 
-  const fundingPercentage = business ? (business.raisedAmount / Math.max(1, business.targetRaise)) * 100 : 0;
+  const fundingPercentage = Math.min(Math.max((business.raisedAmount ?? 0) / Math.max(1, business.targetRaise ?? 1) * 100, 0), 100);
 
   return (
     <div className="container mx-auto p-4 md:p-8 space-y-8 bg-background">
       <div className="p-6 rounded-lg bg-secondary text-secondary-foreground">
-        <h1 className="text-3xl font-bold">Welcome back, {userData?.name}!</h1>
+        <h1 className="text-3xl font-bold">Welcome back, {userData?.name ?? "Founder"}!</h1>
         <p className="text-muted-foreground mt-1">Here's what's happening with {business.name}.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
         <div className="lg:col-span-2 space-y-8">
           <section>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -154,13 +147,13 @@ export default function DashboardPage() {
                 <CardDescription>Manage your funding proposals here.</CardDescription>
               </CardHeader>
               <CardContent>
-                 <div className="space-y-4">
+                <div className="space-y-4">
                   {proposalsLoading ? (
                     <p>Loading proposals...</p>
                   ) : proposals.length === 0 ? (
                     <p className="text-muted-foreground">No proposals yet.</p>
                   ) : (
-                    proposals.map(p => (
+                    proposals.map((p: any) => (
                       <div key={p.id} className="p-3 rounded-lg bg-secondary mb-2">
                         <h3 className="font-semibold">{p.title}</h3>
                         <p className="text-sm text-muted-foreground">{p.description}</p>
@@ -181,7 +174,6 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {/* Investor activity should be fetched from Firestore (views collection). */}
                   <p className="text-muted-foreground">No recent activity (wire investor activity query to Firestore to populate).</p>
                 </div>
               </CardContent>
@@ -203,8 +195,8 @@ export default function DashboardPage() {
               <div className="text-sm">
                 <p className="font-semibold">Profile Completeness</p>
                 <div className="flex items-center gap-2 mt-1">
-                  <Progress value={business.profileComplete} className="w-full" />
-                  <span>{business.profileComplete}%</span>
+                  <Progress value={business.profileComplete ?? 0} className="w-full" />
+                  <span>{business.profileComplete ?? 0}%</span>
                 </div>
               </div>
             </CardContent>
@@ -216,8 +208,12 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-2xl font-bold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(business.raisedAmount)}</span>
-                <span className="text-sm text-muted-foreground">of {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(business.targetRaise)}</span>
+                <span className="text-2xl font-bold text-primary">
+                  {new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 0 }).format(business.raisedAmount ?? 0)}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  of {new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 0 }).format(business.targetRaise ?? 0)}
+                </span>
               </div>
               <Progress value={fundingPercentage} />
             </CardContent>
@@ -229,7 +225,6 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {/* Wire your messages query to Firestore to populate real inbox */}
                 <p className="text-muted-foreground">No messages yet (connect messages collection to populate).</p>
               </div>
             </CardContent>
@@ -243,10 +238,10 @@ export default function DashboardPage() {
               <ul className="space-y-3">
                 {tasks.map((task, index) => (
                   <li key={index} className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${task.completed ? 'bg-primary' : 'border-2 border-primary'}`}>
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${task.completed ? "bg-primary" : "border-2 border-primary"}`}>
                       {task.completed && <Check className="w-3 h-3 text-primary-foreground" />}
                     </div>
-                    <span className={`text-sm ${task.completed ? 'text-muted-foreground line-through' : ''}`}>{task.text}</span>
+                    <span className={`text-sm ${task.completed ? "text-muted-foreground line-through" : ""}`}>{task.text}</span>
                   </li>
                 ))}
               </ul>
@@ -270,24 +265,13 @@ export default function DashboardPage() {
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Invite Team Member</DialogTitle>
-              <DialogDescription>
-                Enter the email address of the person you want to invite to your team.
-              </DialogDescription>
+              <DialogDescription>Enter the email address of the person you want to invite to your team.</DialogDescription>
             </DialogHeader>
             <form onSubmit={handleInviteSubmit}>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="email" className="text-right">
-                    Email
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="teammate@example.com"
-                    className="col-span-3"
-                    required
-                  />
+                  <Label htmlFor="email" className="text-right">Email</Label>
+                  <Input id="email" name="email" type="email" placeholder="teammate@example.com" className="col-span-3" required />
                 </div>
               </div>
               <div className="flex justify-end">
@@ -296,7 +280,6 @@ export default function DashboardPage() {
             </form>
           </DialogContent>
         </Dialog>
-
       </footer>
     </div>
   );
