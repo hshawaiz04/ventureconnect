@@ -46,7 +46,7 @@ export default function QuerySolutionPage() {
     }
 
     try {
-      await postSolution(queryId, content);
+      await postSolution(queryId, content, userData.name);
       toast({
         title: "Solution Posted!",
         description: "Thank you for contributing to the community.",
@@ -87,9 +87,12 @@ export default function QuerySolutionPage() {
       <div className="max-w-4xl mx-auto space-y-8">
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl font-bold">{queryData.title}</CardTitle>
+            <div className="flex justify-between items-start">
+                <CardTitle className="text-2xl font-bold">{queryData.title}</CardTitle>
+                <span className="text-sm bg-primary text-primary-foreground px-3 py-1 rounded-full whitespace-nowrap">{queryData.status}</span>
+            </div>
             <CardDescription>
-              Asked by {queryData.authorName} about {formatDistanceToNow(queryData.createdAt.toDate(), { addSuffix: true })}
+              Asked by {queryData.authorName} about {queryData.createdAt ? formatDistanceToNow(queryData.createdAt.toDate(), { addSuffix: true }) : 'some time ago'}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -112,7 +115,7 @@ export default function QuerySolutionPage() {
                         <div>
                             <p className="font-semibold">{solution.advisorName}</p>
                             <p className="text-xs text-muted-foreground">
-                                Answered {formatDistanceToNow(solution.createdAt.toDate(), { addSuffix: true })}
+                                Answered {solution.createdAt ? formatDistanceToNow(solution.createdAt.toDate(), { addSuffix: true }) : 'some time ago'}
                             </p>
                         </div>
                     </div>

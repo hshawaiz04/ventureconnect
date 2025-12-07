@@ -1,28 +1,23 @@
 
 'use client';
 
-import { collection, addDoc, serverTimestamp, doc, getDoc, query, onSnapshot, orderBy } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, getDoc, query, onSnapshot, orderBy, updateDoc } from "firebase/firestore";
 import { db, auth } from "@/firebase";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { FirestorePermissionError } from "@/firebase/errors";
 import { useUser } from "@/firebase/auth/use-user";
 import { useEffect, useState } from "react";
 
-export async function postSolution(queryId: string, content: string) {
+export async function postSolution(queryId: string, content: string, authorName: string) {
   const user = auth.currentUser;
-  const { userData } = useUser(); // This will not work as it's a hook. We need to get it from the component.
-  // We'll pass authorName from the component.
-  if (!user || !userData) {
-    throw new Error("User is not authenticated or user data is not available.");
-  }
-   if (userData.role !== 'advisor') {
-    throw new Error("Only advisors can post solutions.");
+  if (!user) {
+    throw new Error("User is not authenticated.");
   }
 
   const solutionData = {
     queryId,
     advisorUid: user.uid,
-    advisorName: userData.name,
+    advisorName: authorName,
     content,
     createdAt: serverTimestamp(),
   };
@@ -31,6 +26,13 @@ export async function postSolution(queryId: string, content: string) {
 
   try {
     const docRef = await addDoc(solutionsCollection, solutionData);
+    
+    // Also update the query status to 'Answered'
+    const queryDocRef = doc(db, 'queries', queryId);
+    await updateDoc(queryDocRef, {
+        status: 'Answered'
+    });
+
     return { id: docRef.id };
   } catch (e: any) {
     if (e.code === 'permission-denied') {
