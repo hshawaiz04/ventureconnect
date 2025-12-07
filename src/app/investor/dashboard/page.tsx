@@ -72,28 +72,39 @@ export default function InvestorDashboardPage() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div>
+      <div className="p-6 rounded-lg bg-secondary text-secondary-foreground">
         <h1 className="text-3xl font-bold">Investor Dashboard</h1>
         <p className="text-muted-foreground mt-1">Welcome, {profileName} — access screened deals, founder profiles, and smart matching.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-4">
+        <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Deals — recommended</CardTitle>
+              <CardTitle>Deals — Recommended For You</CardTitle>
             </CardHeader>
             <CardContent>
               {deals.length === 0 ? (
-                <div>No deals found matching your preferences.</div>
+                <div className="text-center py-8 text-muted-foreground">
+                  <p>No deals found matching your preferences.</p>
+                  <Button variant="link" asChild className="mt-2">
+                    <Link href="/proposals">Browse all deals</Link>
+                  </Button>
+                </div>
               ) : (
                 deals.map((d: any) => (
-                  <div key={d.id} className="p-4 border-b last:border-b-0">
-                    <Link href={`/businesses/${d.id}`} className="font-semibold hover:underline">
+                  <div key={d.id} className="p-4 border-b last:border-b-0 hover:bg-muted/50 transition-colors">
+                    <Link href={`/proposals?businessId=${d.id}`} className="font-semibold hover:underline text-lg">
                       {d.name}
                     </Link>
                     <p className="text-sm text-muted-foreground">{d.industry} • {d.stage}</p>
                     <p className="text-sm mt-2 line-clamp-2">{d.pitch}</p>
+                     <div className="mt-3 flex items-center justify-between">
+                        <span className="text-primary font-semibold">{new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 0 }).format(d.targetRaise ?? 0)} Sought</span>
+                        <Button variant="secondary" size="sm" asChild>
+                            <Link href={`/proposals?businessId=${d.id}`}>View Details</Link>
+                        </Button>
+                    </div>
                   </div>
                 ))
               )}
@@ -106,12 +117,18 @@ export default function InvestorDashboardPage() {
             </CardHeader>
             <CardContent>
               {saved.length === 0 ? (
-                <div>No saved items</div>
+                <p className="text-center py-8 text-muted-foreground">You have no saved opportunities.</p>
               ) : (
                 saved.map((s: any) => (
-                  <div key={s.id} className="p-3 border-b last:border-b-0">
-                    <div className="font-medium">{s.refId}</div>
-                    <div className="text-xs text-muted-foreground">{s.type}</div>
+                  <div key={s.id} className="p-3 border-b last:border-b-0 flex justify-between items-center">
+                    <div>
+                        <p className="font-medium">{s.refId}</p>
+                        <p className="text-xs text-muted-foreground uppercase">{s.type}</p>
+                    </div>
+                    <Button variant="ghost" size="sm" asChild>
+                        {/* This would link to the specific saved item, e.g. /businesses/{s.refId} */}
+                        <Link href="#">View</Link>
+                    </Button>
                   </div>
                 ))
               )}
@@ -119,20 +136,20 @@ export default function InvestorDashboardPage() {
           </Card>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Messages</CardTitle>
             </CardHeader>
             <CardContent>
               {threads.length === 0 ? (
-                <div>No messages</div>
+                <p className="text-center py-8 text-muted-foreground">You have no messages.</p>
               ) : (
                 threads.map((t: any) => (
-                  <div key={t.id} className="p-2 border-b last:border-b-0">
+                  <div key={t.id} className="p-3 border-b last:border-b-0 hover:bg-muted/50">
                     <div className="flex justify-between items-center">
                       <div>
-                        <div className="font-medium">{t.participants?.join(", ")}</div>
+                        <div className="font-medium">{t.participants?.filter((p: string) => p !== authUser.uid).join(", ") || 'Conversation'}</div>
                         <div className="text-sm text-muted-foreground line-clamp-1">
                            {t.messages?.[t.messages.length - 1]?.text ?? 'No messages yet'}
                         </div>
@@ -142,8 +159,10 @@ export default function InvestorDashboardPage() {
                   </div>
                 ))
               )}
-              <div className="mt-3">
-                <Link href="/investor/messages"><Button>Open Messages</Button></Link>
+              <div className="mt-4 text-center">
+                <Button asChild>
+                  <Link href="#">Open All Messages</Link>
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -153,7 +172,8 @@ export default function InvestorDashboardPage() {
               <CardTitle>Smart Matching</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">We recommend startups based on your preferences. (This is a stub — replace with your matching engine/ML scoring later.)</p>
+              <p className="text-sm text-muted-foreground">We recommend startups based on your preferences. Configure your preferences to get better matches.</p>
+               <Button variant="outline" className="w-full mt-4">Edit Preferences</Button>
             </CardContent>
           </Card>
         </div>
